@@ -5,7 +5,20 @@ Hello, this Da. If you have diffcult while accessing this reposity, please try t
 
 2. Set a password in your account page.
 
-3. If you are accessing reposity using HTTPS, remember to keep GIT_SSL_NO_VERIFY=true in your environment variables. The server is using a self-signed (or self-issued) certificate, which cause troubles.
+3. If you are accessing reposity using HTTPS:
+   The server is using a self-signed (or self-issued) certificate, which cause troubles.
+
+    3a. For command-line users: 
+        Remember to keep GIT_SSL_NO_VERIFY=true in your environment variables.
+
+    3b. For Eclipse users:
+        a) open Window->Preferences->Team->Git->Configuration
+        b) Click the New Entry button
+        c) Add the following:
+            Key = http.sslVerify
+            Value = false
+
+        Reference: http://gitblit.com/faq.html
 
 4. If you are using SSH, remember to import a SSH key.
 
