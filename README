@@ -1,4 +1,12 @@
-Do you know? I am testing the gitlab and configuring out how to use it.
-I am crazy now,~~~~~~~~~~~~~~
+Hello, this Da. If you have diffcult while accessing this reposity, please try the following steps:
 
-What? I can edit the file by using ecan i say nosdfsdfsadfasdf
+1. Use the username in your account page.
+   IT COULD BE DIFFERENT FROM YOUR NSID!
+
+2. Set a password in your account page.
+
+3. If you are accessing reposity using HTTPS, remember to keep GIT_SSL_NO_VERIFY=true in your environment variables. The server is using a self-signed (or self-issued) certificate, which cause troubles.
+
+4. If you are using SSH, remember to import a SSH key.
+
+5. I hope there is no more diffculties.
