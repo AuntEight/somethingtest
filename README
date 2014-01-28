@@ -11,14 +11,15 @@ Hello, this Da. If you have diffcult while accessing this reposity, please try t
     3a. For command-line users: 
         Remember to keep GIT_SSL_NO_VERIFY=true in your environment variables.
 
-    3b. For Eclipse users:
+    ~~3b. For Eclipse users:
         a) open Window->Preferences->Team->Git->Configuration
         b) Click the New Entry button
         c) Add the following:
             Key = http.sslVerify
             Value = false
 
-        Reference: http://gitblit.com/faq.html
+        Reference: http://gitblit.com/faq.html~~
+    It does not work on my computer. Anybody has ideas?
 
 4. If you are using SSH, remember to import a SSH key.
 
