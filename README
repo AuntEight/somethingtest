@@ -1,4 +1,4 @@
-Hello, this Da. If you have diffcult while accessing this reposity, please try the following steps:
+Hello, this is Da. If you have diffcult while accessing this reposity, please try the following steps:
 
 1. Use the username in your account page.
    IT COULD BE DIFFERENT FROM YOUR NSID!
@@ -13,8 +13,8 @@ Hello, this Da. If you have diffcult while accessing this reposity, please try t
 
     3b. For Eclipse users:
         Tested on Eclipse Kepler/egit 3.0.3.201309161630.
-	Failed on earlier Eclipse/egit combination.
-        a) open Window->Preferences->Team->Git->Configuration
+	    Failed on earlier Eclipse/egit combination.
+        a) Open Window->Preferences->Team->Git->Configuration
         b) Click the New Entry button
         c) Add the following:
             Key = http.sslVerify
@@ -26,3 +26,5 @@ Hello, this Da. If you have diffcult while accessing this reposity, please try t
 4. If you are using SSH, remember to import a SSH key. You may need MINGW32 on Windows to use ssh-keygen.
 
 5. I hope there is no more diffculties.
+
+6. Forget the strange name. 
