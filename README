@@ -12,8 +12,8 @@ Hello, this Da. If you have diffcult while accessing this reposity, please try t
         Remember to keep GIT_SSL_NO_VERIFY=true in your environment variables.
 
     3b. For Eclipse users:
-        It does NOT work on my computer. Anybody has ideas?
-
+        Tested on Eclipse Kepler/egit 3.0.3.201309161630.
+	Failed on earlier Eclipse/egit combination.
         a) open Window->Preferences->Team->Git->Configuration
         b) Click the New Entry button
         c) Add the following:
@@ -23,6 +23,6 @@ Hello, this Da. If you have diffcult while accessing this reposity, please try t
         Reference: http://gitblit.com/faq.html
     
 
-4. If you are using SSH, remember to import a SSH key.
+4. If you are using SSH, remember to import a SSH key. You may need MINGW32 on Windows to use ssh-keygen.
 
 5. I hope there is no more diffculties.
