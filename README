@@ -13,7 +13,7 @@ Hello, this is Da. If you have diffcult while accessing this reposity, please tr
 
     3b. For Eclipse users:
         Tested on Eclipse Kepler/egit 3.0.3.201309161630.
-	    Failed on earlier Eclipse/egit combination.
+	Failed on earlier Eclipse/egit combination.
         a) Open Window->Preferences->Team->Git->Configuration
         b) Click the New Entry button
         c) Add the following:
