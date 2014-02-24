@@ -1,30 +1,10 @@
-Hello, this is Da. If you have diffcult while accessing this reposity, please try the following steps:
+Hi guys,
 
-1. Use the username in your account page.
-   IT COULD BE DIFFERENT FROM YOUR NSID!
+This is the main branch for our cmpt371 project
+It contain the codes from milestone 2 
+both develop codes and test codes
 
-2. Set a password in your account page.
+All of these file have been tested,
+and does not have any big problem.
 
-3. If you are accessing reposity using HTTPS:
-   The server is using a self-signed (or self-issued) certificate, which cause troubles.
-
-    3a. For command-line users: 
-        Remember to keep GIT_SSL_NO_VERIFY=true in your environment variables.
-
-    3b. For Eclipse users:
-        Tested on Eclipse Kepler/egit 3.0.3.201309161630.
-	Failed on earlier Eclipse/egit combination.
-        a) Open Window->Preferences->Team->Git->Configuration
-        b) Click the New Entry button
-        c) Add the following:
-            Key = http.sslVerify
-            Value = false
-
-        Reference: http://gitblit.com/faq.html
-    
-
-4. If you are using SSH, remember to import a SSH key. You may need MINGW32 on Windows to use ssh-keygen.
-
-5. I hope there is no more diffculties.
-
-6. Forget the strange name. 
+first uplode 2014-02-23 Sunday
