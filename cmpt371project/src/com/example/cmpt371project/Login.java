@@ -31,7 +31,7 @@ public class Login extends Activity {
 		password = (EditText) findViewById(R.id.passWordInput);
 		logInButton= (Button) findViewById(R.id.login);
 		upDateButton= (Button) findViewById(R.id.update);
-	
+
 		
 		testDB = new LocalDB(this);
 		
