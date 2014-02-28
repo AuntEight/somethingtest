@@ -27,10 +27,10 @@ public class Login extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		userID = (EditText) findViewById(R.id.log_user_txt);
-		password = (EditText) findViewById(R.id.log_pass_txt);
-		logInButton= (Button) findViewById(R.id.log_logI_but);
-		upDateButton= (Button) findViewById(R.id.log_upda_but);
+		userID = (EditText) findViewById(R.id.userNameInput);
+		password = (EditText) findViewById(R.id.passWordInput);
+		logInButton= (Button) findViewById(R.id.login);
+		upDateButton= (Button) findViewById(R.id.update);
 	
 		
 		testDB = new LocalDB(this);
