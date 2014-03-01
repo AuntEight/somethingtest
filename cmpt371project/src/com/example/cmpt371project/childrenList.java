@@ -82,7 +82,7 @@ private ListView list;
 	private simpleListAdapter  initializeListAdapter(){
 		ArrayList<HashMap<String,Object>> listItem = new ArrayList<HashMap<String,Object>>();
 		
-		for(int i=0;i<5;i++){
+		for(int i=0;i<1000;i++){ 
 			HashMap<String,Object> newLocation = new HashMap<String,Object>();
 			newLocation.put("location", "Child"+i);
 			listItem.add(newLocation);

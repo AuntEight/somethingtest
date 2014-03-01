@@ -57,18 +57,20 @@ public class Login extends Activity {
 						 Intent addIntent = new Intent();
 		            	 addIntent.setClass(Login.this, admin.class);
 		            	 Login.this.startActivity(addIntent);
+		            	 finish();
 					}
 					else if(privilege.compareTo("researcher")==0){
 						 Intent addIntent = new Intent();
 		            	 addIntent.setClass(Login.this, researcher.class);
 		            	 Login.this.startActivity(addIntent);
+		            	 finish(); 
 					}					
 	            	
 				}
 				else{
 					Context context = getApplicationContext();
 					CharSequence text = "Invalid username or password";
-					int duration = Toast.LENGTH_LONG;
+					int duration = Toast.LENGTH_SHORT;
 
 					Toast toast = Toast.makeText(context, text, duration);
 					toast.show();
@@ -89,7 +91,7 @@ public class Login extends Activity {
 			public void onClick(View v) {
 				if(haveNetworkConnection()){
 					Log.d("Network Connection","Has connection");
-					//testDB.updateUserTable();
+					testDB.updateUserTable();
 					//testDB.exportUserTable();
 				}
 				else {
