@@ -16,6 +16,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -51,13 +53,16 @@ public class LocalDB extends SQLiteOpenHelper{
 		String sql = "CREATE TABLE "+TABLE_NAME+" ("
 				+USER_ID +" TEXT, "
 				+USER_PASSWORD+ " TEXT,"
+				+"privilege TEXT,"
 				+"UNIQUE("+USER_ID+")ON CONFLICT REPLACE);";
 		db.execSQL(sql);
-		SQLiteStatement statement = db.compileStatement("INSERT into userData(user_ID,user_Password) VALUES(?,?);");
-		statement.bindString(1, "admin");
-		statement.bindString(2, "admin");
+		SQLiteStatement statement = db.compileStatement("INSERT into userData(user_ID,user_Password,privilege) VALUES(?,?,?);");
+		statement = db.compileStatement("INSERT into userData(user_ID,user_Password,Privilege) VALUES(?,?,?);");
+		statement.bindString(1, "res");
+		statement.bindString(2, "res");
+		statement.bindString(3,"researcher");
 		statement.executeInsert();
-		statement.close();		
+		statement.close();			
 	} 
 
 	@Override
@@ -83,6 +88,17 @@ public class LocalDB extends SQLiteOpenHelper{
 		this.getWritableDatabase().close();
 		return password;
 	}
+	public String getPrivilege(String username){
+		String privilege = new String();
+		Cursor DBcursor = this.getWritableDatabase().rawQuery("Select privilege from userData WHERE user_ID='" + username + "'",null);
+
+		while(DBcursor.moveToNext()){	
+			privilege = DBcursor.getString(0);	
+		}
+		DBcursor.close(); 
+		this.getWritableDatabase().close();
+		return privilege;
+	}
 	
 	public void exportUserTable(){
 		
@@ -96,23 +112,28 @@ public class LocalDB extends SQLiteOpenHelper{
 	 * */
 	class pushToRemoteDB extends AsyncTask<String, String, String> {
 
-		private static final String url_create_user = "http://10.80.2.29/create_user.php";
+		private static final String url_create_user = "http://192.168.0.10/Testphp/create_user.php";
 		/**
 		 * Creating product
 		 * */
 		JSONParser jsonParser = new JSONParser();
 		protected String doInBackground(String... args) {
+			Log.d("A", "119");
 			String query = "SELECT * FROM "+TABLE_NAME;
 			Cursor cursor = thisDB.rawQuery(query, null);
-			String[] result = new String[2];
+			String[] result = new String[3];
 			while(cursor.moveToNext()){
+
 				result[0]=cursor.getString(0);
 				result[1]=cursor.getString(1);
+				result[2]=cursor.getString(2);
 
 				// Building Parameters
+				Log.d("NAMEVALUEPAIR", " ");
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("username", result[0].toString()));
 				params.add(new BasicNameValuePair("password", result[1].toString()));
+				params.add(new BasicNameValuePair("privilege", result[2].toString()));
 
 				// getting JSON Object
 				// Note that create user url accepts POST method
@@ -133,6 +154,7 @@ public class LocalDB extends SQLiteOpenHelper{
 						// failed to create product
 					}
 				} catch (JSONException e) {
+					Log.d("JSON Exception", e.toString());
 					e.printStackTrace();
 				}
 			}
@@ -154,7 +176,7 @@ public class LocalDB extends SQLiteOpenHelper{
 		
 		JSONParser jParser = new JSONParser();
 		// url to get all user list
-		private static final String url_all_users = "http://10.80.2.29/index.php";
+		private static final String url_all_users = "http://192.168.0.10/Testphp/index.php";
 		
 	    @Override
 		/**
@@ -187,12 +209,14 @@ public class LocalDB extends SQLiteOpenHelper{
 						// Storing each json item in variable
 						String name = c.getString(TAG_username);
 						String password = c.getString(TAG_password);
+						String privilege=c.getString("privilege");
 						
 						// Inserting the values into the table
-						SQLiteStatement statement = thisDB.compileStatement("INSERT into userData(user_ID,user_Password) VALUES(?,?);");
+						SQLiteStatement statement = thisDB.compileStatement("INSERT into userData(user_ID,user_Password, privilege) VALUES(?,?,?);");
 
 						statement.bindString(1, name);
 						statement.bindString(2, password);
+						statement.bindString(3,privilege);
 						statement.executeInsert();
 						statement.close();				
 
