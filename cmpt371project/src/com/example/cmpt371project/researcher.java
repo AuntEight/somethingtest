@@ -9,13 +9,13 @@ import android.widget.Button;
 import com.example.cmpt371project.R;
 
 public class researcher extends Activity{
-private Button childrenButton;
-private Button locationButton;
-private Button updateButton;
-private Button statsButton;
-private Button changeLanguageButton;
-private Button logOutButton;
-	
+	private Button childrenButton;
+	private Button locationButton;
+	private Button updateButton;
+	private Button statsButton;
+	private Button changeLanguageButton;
+	private Button logOutButton;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -27,37 +27,37 @@ private Button logOutButton;
 		statsButton=(Button)findViewById(R.id.stRe_stats_but);
 		changeLanguageButton=(Button)findViewById(R.id.stRe_chLa_but);
 		logOutButton=(Button)findViewById(R.id.stRe_logO_but);
-		
+
 		childrenButton.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-           	 Intent addIntent = new Intent();
-           	 addIntent.setClass(researcher.this, childrenList.class);
-           	researcher.this.startActivity(addIntent);
-				
+				Intent addIntent = new Intent();
+				addIntent.setClass(researcher.this, childrenList.class);
+				researcher.this.startActivity(addIntent);
+
 			}});
-		
+
 		locationButton.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-           	 Intent addIntent = new Intent();
-           	 addIntent.setClass(researcher.this, locationList.class);
-           	researcher.this.startActivity(addIntent);
-				
+				Intent addIntent = new Intent();
+				addIntent.setClass(researcher.this, locationList.class);
+				researcher.this.startActivity(addIntent);
+
 			}});
-		
+
 		logOutButton.setOnClickListener(new View.OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-           	 Intent addIntent = new Intent();
-           	 addIntent.setClass(researcher.this, Login.class);
-           	researcher.this.startActivity(addIntent);
-				
+				Intent addIntent = new Intent();
+				addIntent.setClass(researcher.this, Login.class);
+				researcher.this.startActivity(addIntent);
+				finish(); 
 			}});
 	}
-	
+
 
 }
