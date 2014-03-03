@@ -82,11 +82,13 @@ private ListView list;
 	private simpleListAdapter  initializeListAdapter(){
 		ArrayList<HashMap<String,Object>> listItem = new ArrayList<HashMap<String,Object>>();
 		
-		for(int i=0;i<1000;i++){ 
-			HashMap<String,Object> newLocation = new HashMap<String,Object>();
-			newLocation.put("location", "Child"+i);
-			listItem.add(newLocation);
-		}
+		LocalDB getDB= new LocalDB(this.getApplication());
+		listItem = getDB.displayChildren();
+//		for(int i=0;i<100;i++){  
+//			HashMap<String,Object> newLocation = new HashMap<String,Object>();
+//			newLocation.put("location", "Child"+i);
+//			listItem.add(newLocation);
+//		}
 		simpleListAdapter newAdapter = new simpleListAdapter(this, listItem, R.layout.list, 
 				new String[]{"location"}, new int[]{R.id.list_textview});;
 			

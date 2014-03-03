@@ -64,7 +64,11 @@ public class Login extends Activity {
 		            	 addIntent.setClass(Login.this, researcher.class);
 		            	 Login.this.startActivity(addIntent);
 		            	 finish(); 
-					}					
+					}
+					//Default case if login credentials is user
+					else{
+						
+					}
 	            	
 				}
 				else{
@@ -91,8 +95,9 @@ public class Login extends Activity {
 			public void onClick(View v) {
 				if(haveNetworkConnection()){
 					Log.d("Network Connection","Has connection");
-					testDB.updateUserTable();
+					//testDB.updateUserTable();
 					//testDB.exportUserTable();
+					testDB.getChildren();
 				}
 				else {
 					Log.d("Network Connection","NO connection");
