@@ -50,23 +50,28 @@ public class Login extends Activity {
 				System.out.println("input user id is "+ inputId);
 				System.out.println("input password id is "+ inputPassword);
 				String password = testDB.readPassword(inputId);
-				
-				if(password.compareTo(inputPassword)==0 && !inputPassword.equals("")){
-					String privilege = testDB.getPrivilege(inputId);
-					if(privilege.compareTo("administrator")==0){
+//delete for test				
+//			if(password.compareTo(inputPassword)==0 && !inputPassword.equals("")){ 
+//				
+
+//					String privilege = testDB.getPrivilege(inputId);
+//					if(privilege.compareTo("administrator")==0){
+					if(inputId.compareTo("admin")==0&&inputPassword.compareTo("admin")==0){
 						 Intent addIntent = new Intent();
 		            	 addIntent.setClass(Login.this, admin.class);
 		            	 Login.this.startActivity(addIntent);
 		            	 finish();
 					}
-					else if(privilege.compareTo("researcher")==0){
-						 Intent addIntent = new Intent();
-		            	 addIntent.setClass(Login.this, researcher.class);
-		            	 Login.this.startActivity(addIntent);
+//delete for test	
+//					else if(privilege.compareTo("researcher")==0){
+				else if(inputId.compareTo("res")==0&&inputPassword.compareTo("res")==0){
+						 Intent resIntent = new Intent();
+		            	 resIntent.setClass(Login.this, researcher.class);
+		            	 Login.this.startActivity(resIntent);
 		            	 finish(); 
 					}					
 	            	
-				}
+//				} //for test
 				else{
 					Context context = getApplicationContext();
 					CharSequence text = "Invalid username or password";

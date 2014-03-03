@@ -69,6 +69,10 @@
     <string name="location_Name">Name</string>
     <string name="location_Address_Line1">Address Line 1</string>
     <string name="location_Address_Line2">Address Line 2</string>
+    <string name="searchbar_add">Add</string>
+    <string name="searchbar_search">Search</string>
+    <string name="children_edit_password">Password</string>
+    <string name="children_edit_userName">Username</string>
     
 
 </resources>
