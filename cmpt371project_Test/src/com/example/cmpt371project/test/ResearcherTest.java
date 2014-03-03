@@ -11,6 +11,7 @@ import com.example.cmpt371project.R;
 import com.example.cmpt371project.childrenList;
 import com.example.cmpt371project.locationList;
 import com.example.cmpt371project.researcher;
+import com.example.cmpt371project.researcherEdit;
 import com.robotium.solo.Solo;
 
 public class ResearcherTest extends ActivityInstrumentationTestCase2<researcher> {
@@ -56,17 +57,17 @@ public class ResearcherTest extends ActivityInstrumentationTestCase2<researcher>
 		
 
 		solo.clickOnView(childrenButton);
-		solo.assertCurrentActivity("ERR - Could not jump to children list.", childrenList.class);
+		assertTrue("ERR - Could not jump to children list in 5s", solo.waitForActivity(childrenList.class,5000));
 		solo.hideSoftKeyboard();
 		solo.goBack();
-		solo.assertCurrentActivity("ERR - Could not jump back from children list.", researcher.class);
+		assertTrue("ERR - Could not jump back from children list in 5s", solo.waitForActivity(researcher.class,5000));
 		solo.clickOnView(locationButton);
-		solo.assertCurrentActivity("ERR - Could not jump to location list", locationList.class);
+		assertTrue("ERR - Could not jump to location list in 5s", solo.waitForActivity(locationList.class,5000));
 		solo.hideSoftKeyboard();
 		solo.goBack();
-		solo.assertCurrentActivity("ERR - Could not jump back from location list.", researcher.class);
+		assertTrue("ERR - Could not jump back from location list in 5s", solo.waitForActivity(researcher.class,5000));
 		solo.clickOnView(logOutButton);
-		solo.assertCurrentActivity("ERR - Could not jump to login screen.", Login.class);
+		assertTrue("ERR - Could not jump to login screen in 5s", solo.waitForActivity(researcher.class,5000));
 		
 	}
 	

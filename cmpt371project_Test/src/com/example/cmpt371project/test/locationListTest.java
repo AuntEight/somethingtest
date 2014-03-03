@@ -56,4 +56,10 @@ public class locationListTest extends
 	 * test search field
 	 */
 
+	
+	@Override
+	protected void tearDown() throws Exception{
+
+			solo.finishOpenedActivities();
+	}
 }

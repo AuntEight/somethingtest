@@ -35,7 +35,7 @@ public class ResearcherOptionTest extends ActivityInstrumentationTestCase2<resea
 	 */
 	public void testResearcherOption_EditUser() {
 		solo.clickOnView(editButton);
-		solo.assertCurrentActivity("Should jump to edit user dialog.", researcherEdit.class);
+		assertTrue("ERR - Could not jump to Edit Researcher screen in 5s", solo.waitForActivity(researcherEdit.class,5000));
 		// To Do: verify info is correctly displayed.
 	}
 	

@@ -26,5 +26,11 @@ public class LocationEditTest extends
 	public void testSave(){
 		//
 	}
+	
+	@Override
+	protected void tearDown() throws Exception{
+
+			solo.finishOpenedActivities();
+	}
 
 }

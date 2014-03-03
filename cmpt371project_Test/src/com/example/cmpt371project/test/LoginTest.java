@@ -130,4 +130,9 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 	}
 	
 
+	@Override
+	protected void tearDown() throws Exception{
+
+			solo.finishOpenedActivities();
+	}
 }

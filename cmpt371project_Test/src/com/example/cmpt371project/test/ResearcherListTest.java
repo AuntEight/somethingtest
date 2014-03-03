@@ -39,7 +39,7 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 	public void testResearcherList_AddUserAndSave(){
 		
 		solo.clickOnView(addResearcherButton);
-		solo.assertCurrentActivity("Should jump to Add Researcher screen", researcherEdit.class);
+		assertTrue("ERR - Could not jump to Add Researcher screen in 5s", solo.waitForActivity(researcherEdit.class,5000));
 		solo.enterText((EditText) findViewById(R.id.edRe_firstname_txt), "Adam");
 		solo.enterText((EditText) findViewById(R.id.edRe_lastname_txt), "Alpha");
 		solo.enterText((EditText) findViewById(R.id.edRe_phon_txt), "1-000-000-0000");
@@ -51,7 +51,7 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 	public void testResearcherList_AddUserAndCancel(){
 		
 		solo.clickOnView(addResearcherButton);
-		solo.assertCurrentActivity("Should jump to Add Researcher screen", researcherEdit.class);
+		assertTrue("ERR - Could not jump to Add Researcher screen in 5s", solo.waitForActivity(researcherEdit.class,5000));
 		solo.enterText((EditText) findViewById(R.id.edRe_firstname_txt), "Brit");
 		solo.enterText((EditText) findViewById(R.id.edRe_lastname_txt), "Beta");
 		solo.enterText((EditText) findViewById(R.id.edRe_phon_txt), "1-000-000-1111");
