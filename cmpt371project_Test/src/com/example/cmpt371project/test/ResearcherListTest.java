@@ -4,11 +4,16 @@ package com.example.cmpt371project.test;
  */
 
 
+import java.util.ArrayList;
+
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 import com.example.cmpt371project.R;
@@ -19,7 +24,7 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 
 	private Solo solo;
 	private Button addResearcherButton;
-	private EditText searchText;
+	private SearchView searchText;
 	private ListView researcherListView;
 	
 	public ResearcherListTest(){
@@ -31,8 +36,8 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(),getActivity());
 		super.setUp();
-		addResearcherButton = (Button) findViewById(R.id.alRe_add_button);
-		searchText = (EditText) findViewById(R.id.alRe_search_txt);
+		addResearcherButton = (Button) findViewById(R.id.actionbar_addButton);
+		searchText = (SearchView) findViewById(R.id.actionbar_searchView);
 		researcherListView = (ListView) findViewById(R.id.alRe_researcher_lst);
 	}
 	
@@ -43,9 +48,15 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 		solo.enterText((EditText) findViewById(R.id.edRe_firstname_txt), "Adam");
 		solo.enterText((EditText) findViewById(R.id.edRe_lastname_txt), "Alpha");
 		solo.enterText((EditText) findViewById(R.id.edRe_phon_txt), "1-000-000-0000");
+		solo.enterText((EditText) findViewById(R.id.edRe_userName_txt), "ala999");
+		solo.enterText((EditText) findViewById(R.id.edRe_password_txt), "test");
 		solo.clickOnView(findViewById(R.id.edRe_save_but));
-		//Temporarily ignored: since database is not implemented.
-//		assertTrue("Could not find newly added user: Adam Alpha", findUser());
+		solo.searchText("Mike", 1, true);
+		ArrayList<TextView> vTiles = new ArrayList<TextView>();
+		vTiles = solo.getCurrentViews(TextView.class, researcherListView);
+		for (int i = 0; i < vTiles.size() - 1; i++) {
+			Log.d("NutriStep", String.valueOf(vTiles.get(i).getText()));
+		}
 	}
 	
 	public void testResearcherList_AddUserAndCancel(){
@@ -143,20 +154,4 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 		return solo.getView(id);
 	}
 	
-	/**
-	 * Determine whether a user is in current listview.
-	 * Always return false now, since database is not implemented.
-	 * @param params
-	 * @return true if found.
-	 */
-	private boolean findUser(String params) {
-//		for (int i = 0; i < researcherListView.getCount() - 1; i++) {
-//		View listElement = researcherListView.getChildAt(i);
-//		//To Do: according to display, determine whether we found newly added user.
-//		if (  ) {
-//			return true;
-//		}
-		
-		return false;
-	}
 }
