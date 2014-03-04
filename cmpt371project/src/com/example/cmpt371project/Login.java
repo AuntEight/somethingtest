@@ -11,7 +11,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -69,7 +68,11 @@ public class Login extends Activity {
 		            	 resIntent.setClass(Login.this, researcher.class);
 		            	 Login.this.startActivity(resIntent);
 		            	 finish(); 
-					}					
+					}
+					//Default case if login credentials is user
+//					else{
+//						
+//					}
 	            	
 //				} //for test
 				else{
@@ -96,8 +99,9 @@ public class Login extends Activity {
 			public void onClick(View v) {
 				if(haveNetworkConnection()){
 					Log.d("Network Connection","Has connection");
-					testDB.updateUserTable();
+					//testDB.updateUserTable();
 					//testDB.exportUserTable();
+					testDB.getChildrenTableFromRemoteDB();
 				}
 				else {
 					Log.d("Network Connection","NO connection");
