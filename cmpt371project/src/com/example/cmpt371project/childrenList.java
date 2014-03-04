@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 
@@ -24,7 +23,6 @@ private ListView list;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_children_list);
 		locationButton=(Button)findViewById(R.id.alCh_loca_but);

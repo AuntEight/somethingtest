@@ -26,20 +26,20 @@ public class Login extends Activity {
 	private Button logInButton;
 	private Button upDateButton;
 	private LocalDB testDB;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
+
 		userID = (EditText) findViewById(R.id.userNameInput);
 		password = (EditText) findViewById(R.id.passWordInput);
 		logInButton= (Button) findViewById(R.id.login);
 		upDateButton= (Button) findViewById(R.id.update);
 
-		
+
 		testDB = new LocalDB(this);
-		
+
 		logInButton.setOnClickListener(new View.OnClickListener(){
 
 			@Override
@@ -49,26 +49,26 @@ public class Login extends Activity {
 				System.out.println("input user id is "+ inputId);
 				System.out.println("input password id is "+ inputPassword);
 				String password = testDB.readPassword(inputId);
-				
+
 				if(password.compareTo(inputPassword)==0 && !inputPassword.equals("")){
 					String privilege = testDB.getPrivilege(inputId);
 					if(privilege.compareTo("administrator")==0){
-						 Intent addIntent = new Intent();
-		            	 addIntent.setClass(Login.this, admin.class);
-		            	 Login.this.startActivity(addIntent);
-		            	 finish();
+						Intent addIntent = new Intent();
+						addIntent.setClass(Login.this, admin.class);
+						Login.this.startActivity(addIntent);
+						finish();
 					}
 					else if(privilege.compareTo("researcher")==0){
-						 Intent addIntent = new Intent();
-		            	 addIntent.setClass(Login.this, researcher.class);
-		            	 Login.this.startActivity(addIntent);
-		            	 finish(); 
+						Intent addIntent = new Intent();
+						addIntent.setClass(Login.this, researcher.class);
+						Login.this.startActivity(addIntent);
+						finish(); 
 					}
 					//Default case if login credentials is user
 					else{
-						
+
 					}
-	            	
+
 				}
 				else{
 					Context context = getApplicationContext();
@@ -78,9 +78,9 @@ public class Login extends Activity {
 					Toast toast = Toast.makeText(context, text, duration);
 					toast.show();
 				}
-					
+
 			}
-			
+
 		});
 
 		/*
@@ -89,14 +89,15 @@ public class Login extends Activity {
 		 * until a php script is made to not add duplicates
 		 */
 		upDateButton.setOnClickListener(new OnClickListener() {
-			
+
 			@SuppressWarnings("deprecation")
 			public void onClick(View v) {
 				if(haveNetworkConnection()){
 					Log.d("Network Connection","Has connection");
-					//testDB.updateUserTable();
-					//testDB.exportUserTable();
+					testDB.getUserTableFromRemoteDB();
+					testDB.exportUserTable();
 					testDB.getChildrenTableFromRemoteDB();
+					testDB.getInsitutionTableFromRemoteDB();
 				}
 				else {
 					Log.d("Network Connection","NO connection");
@@ -126,28 +127,36 @@ public class Login extends Activity {
 
 		});
 	}
+	/**
+	 * Checks if the device has a network connection whether it be Wifi or Mobile
+	 * @return true there is an network connection, false otherwise
+	 */
 	private boolean haveNetworkConnection() {
-	    boolean haveConnectedWifi = false;
-	    boolean haveConnectedMobile = false;
+		boolean haveConnectedWifi = false;
+		boolean haveConnectedMobile = false;
 
-	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-	    for (NetworkInfo ni : netInfo) {
-	        if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-	            if (ni.isConnected())
-	                haveConnectedWifi = true;
-	        if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-	            if (ni.isConnected())
-	                haveConnectedMobile = true;
-	    }
-	    return haveConnectedWifi || haveConnectedMobile;
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+		for (NetworkInfo ni : netInfo) {
+			if (ni.getTypeName().equalsIgnoreCase("WIFI")){
+				if (ni.isConnected()){
+					haveConnectedWifi = true;
+				}
+			}
+			if (ni.getTypeName().equalsIgnoreCase("MOBILE")){
+				if (ni.isConnected()){
+					haveConnectedMobile = true;
+				}
+			}
+		}
+		return haveConnectedWifi || haveConnectedMobile;
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.login, menu);
-		
+
 		return true;
 	}
 
