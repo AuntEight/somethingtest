@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <GridLayout
+<!--     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:rowCount="1" 
@@ -24,12 +24,13 @@
             android:layout_gravity="left|top"
             android:layout_row="0"
             android:hint="@string/researcher_Search" />
-    </GridLayout>
+    </GridLayout> -->
 <ListView
         android:id="@+id/alRe_researcher_lst"
         android:layout_width="fill_parent"  
         android:layout_height="0dip"
         android:layout_weight="1"
         android:drawSelectorOnTop="false"
-        android:smoothScrollbar="true" />
+        android:smoothScrollbar="true" 
+        android:background="#969696"/>
 </LinearLayout>
