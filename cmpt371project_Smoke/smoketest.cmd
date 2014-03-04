@@ -4,7 +4,6 @@ setlocal enabledelayedexpansion
 set rm=9
 for /f "delims=" %%a in ('call adb -s emulator-5556 shell getprop sys.boot_completed') ^
 do ( set rb=%%a )
-
 if not 1==%rb% (
 	echo can not connect to emulator 5556
 	echo please make sure that the emulator already started.
