@@ -83,7 +83,7 @@ private ListView list;
 		ArrayList<HashMap<String,Object>> listItem = new ArrayList<HashMap<String,Object>>();
 		
 		LocalDB getDB= new LocalDB(this.getApplication());
-		listItem = getDB.displayChildren();
+		listItem = getDB.getListofChildren();
 //		for(int i=0;i<100;i++){  
 //			HashMap<String,Object> newLocation = new HashMap<String,Object>();
 //			newLocation.put("location", "Child"+i);

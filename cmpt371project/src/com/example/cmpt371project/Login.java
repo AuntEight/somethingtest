@@ -11,7 +11,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -97,7 +96,7 @@ public class Login extends Activity {
 					Log.d("Network Connection","Has connection");
 					//testDB.updateUserTable();
 					//testDB.exportUserTable();
-					testDB.getChildren();
+					testDB.getChildrenTableFromRemoteDB();
 				}
 				else {
 					Log.d("Network Connection","NO connection");
