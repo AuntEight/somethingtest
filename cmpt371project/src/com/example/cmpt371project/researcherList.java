@@ -36,6 +36,7 @@ private int clickPosition;
 //private Object[] names;
 private ArrayList<String> listContent = new ArrayList<String>();  
 private HashMap<String,Object> clickItem;  //the item be clicked in the list 
+private LocalDB resDB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,11 @@ private HashMap<String,Object> clickItem;  //the item be clicked in the list
 		super.onCreate(savedInstanceState);
 //		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_researchers_list);
+		
+		//set up database
+		resDB = new LocalDB(this);
+		
+		resDB.addNewUser("username1", "password1", "first1", "last1", "1234567", "user");
 		
 		initActionbar();  //for acthion bar	    
 		listView = (ListView) findViewById(R.id.alRe_researcher_lst);
@@ -69,6 +75,10 @@ private HashMap<String,Object> clickItem;  //the item be clicked in the list
                 menu.setHeaderTitle("Option");     
                 menu.add(0, 0, 0, "View");  
                 menu.add(0, 1, 0, "Edit");     
+                
+                //for test 
+                ArrayList<HashMap<String,Object>> testRESDB = resDB.getAllUsers();
+                System.out.println(testRESDB.toString());
             }  
         }); 
 		
