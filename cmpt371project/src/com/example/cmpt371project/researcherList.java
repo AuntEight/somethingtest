@@ -46,9 +46,9 @@ private LocalDB resDB;
 		setContentView(R.layout.activity_researchers_list);
 		
 		//set up database
-		resDB = new LocalDB(this);
+//		resDB = new LocalDB(this);
 		
-		resDB.addNewUser("username1", "password1", "first1", "last1", "1234567", "user");
+//		resDB.addNewUser("username1", "password1", "first1", "last1", "1234567", "user");
 		
 		initActionbar();  //for acthion bar	    
 		listView = (ListView) findViewById(R.id.alRe_researcher_lst);
@@ -77,8 +77,8 @@ private LocalDB resDB;
                 menu.add(0, 1, 0, "Edit");     
                 
                 //for test 
-                ArrayList<HashMap<String,Object>> testRESDB = resDB.getAllUsers();
-                System.out.println(testRESDB.toString());
+//                ArrayList<HashMap<String,Object>> testRESDB = resDB.getAllUsers();
+//                System.out.println(testRESDB.toString());
             }  
         }); 
 		
