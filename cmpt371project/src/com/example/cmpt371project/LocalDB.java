@@ -29,6 +29,9 @@ public class LocalDB extends SQLiteOpenHelper{
 	private final static String USER_PASSWORD = "user_Password"; 
 	private final static String USER_NAME="username";
 	private final static String USER_PRIVILEGE="privilege";
+	private final static String USER_FIRSTNAME="firstname";
+	private final static String USER_LASTNAME="lastname";
+	private final static String USER_PHONENUM="phonenum";
 	ArrayList<HashMap<String, Object>> userlist;
 
 	//Variables needed for ChildInfo table
@@ -77,7 +80,10 @@ public class LocalDB extends SQLiteOpenHelper{
 		String userTable = "CREATE TABLE "+USERS_TABLE+" ("
 				+USER_ID +" TEXT NOT NULL, "
 				+USER_PASSWORD+ " TEXT NOT NULL,"
-				+"privilege TEXT NOT NULL,"
+				+USER_FIRSTNAME+ " TEXT,"
+				+USER_LASTNAME+" TEXT,"
+				+USER_PHONENUM+" TEXT,"
+				+USER_PRIVILEGE+" TEXT NOT NULL,"
 				+"UNIQUE("+USER_ID+")ON CONFLICT REPLACE);";
 		db.execSQL(userTable);
 
