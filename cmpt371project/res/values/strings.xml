@@ -75,6 +75,10 @@
     <string name="edCh_birth_txt">Birthdate</string>
     <string name="edCh_birth_lab">Birthdate</string>
     <string name="children_edit_PostalCode">Postal Code</string>
+    <string name="searchbar_add">Add</string>
+    <string name="searchbar_search">Search</string>
+    <string name="children_edit_password">Password</string>
+    <string name="children_edit_userName">Username</string>
     
 
 </resources>
