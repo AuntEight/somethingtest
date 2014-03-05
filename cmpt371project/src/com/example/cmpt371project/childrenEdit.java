@@ -55,7 +55,7 @@ public class childrenEdit extends Activity{
 				String childGender=edCh_gender_txt.getText().toString().trim();
 				String childPostalCode=edCh_post_txt.getText().toString().trim();
 
-				addNewChild.addNewChild(childFirstName, childLastName, childGender, childBirthdate, childAddress, childPostalCode, childPhoneNum);
+//				addNewChild.addNewChild(childFirstName, childLastName, childGender, childBirthdate, childAddress, childPostalCode, childPhoneNum);
 
 			}
 

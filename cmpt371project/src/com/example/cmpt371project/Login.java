@@ -48,7 +48,10 @@ public class Login extends Activity {
 				String inputPassword = password.getText().toString();
 				System.out.println("input user id is "+ inputId);
 				System.out.println("input password id is "+ inputPassword);
-				String password = testDB.readPassword(inputId);
+				
+//need to fix
+//				String password = testDB.readPassword(inputId);
+//
 
 				if(inputId.compareTo("admin")==0&&inputPassword.compareTo("admin")==0){
 						 Intent addIntent = new Intent();
@@ -120,7 +123,7 @@ public class Login extends Activity {
 					Log.d("Network Connection","Has connection");
 					testDB.getUserTableFromRemoteDB();
 					testDB.exportUserTable();
-					testDB.getChildrenTableFromRemoteDB();
+//					testDB.getChildrenTableFromRemoteDB();
 					testDB.getInsitutionTableFromRemoteDB();
 				}
 				else {
