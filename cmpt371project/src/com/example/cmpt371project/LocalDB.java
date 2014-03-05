@@ -117,7 +117,35 @@ public class LocalDB extends SQLiteOpenHelper{
 		statement.bindString(2, "res");
 		statement.bindString(3,"researcher");
 		statement.executeInsert();
-		statement.close();			
+		statement.close();		
+		
+		statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,Privilege) VALUES(?,?,?);");
+		statement.bindString(1, "admin");
+		statement.bindString(2, "admin");
+		statement.bindString(3,"administrator");
+		statement.executeInsert();
+		statement.close();	
+		
+		statement = db.compileStatement("INSERT into "+CHILDREN_TABLE +"("
+				+CHILD_ID +","
+				+CHILD_FName+","
+				+CHILD_LName+","
+				+CHILDREN_BIRTH+","
+				+CHILDREN_GENDER+","
+				+CHILD_ADDRESS+","
+				+CHILDREN_POSTAL+ ","
+				+CHILDREN_PHONE+ ")VALUES(?,?,?,?,?,?,?,?);");
+				
+		statement.bindString(1,"9999"); //TEMP ID
+		statement.bindString(2,"david");
+		statement.bindString(3,"thai");
+		statement.bindString(4,"1992-02-29");
+		statement.bindString(5,"male");
+		statement.bindString(6,"SK");
+		statement.bindString(7,"SK");
+		statement.bindString(8,"555-555-5555");
+		statement.executeInsert();
+		statement.close();	
 	} 
 
 	@Override
