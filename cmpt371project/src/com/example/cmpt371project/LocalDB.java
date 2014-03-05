@@ -29,6 +29,9 @@ public class LocalDB extends SQLiteOpenHelper{
 	private final static String USER_PASSWORD = "user_Password"; 
 	private final static String USER_NAME="username";
 	private final static String USER_PRIVILEGE="privilege";
+	private final static String USER_FIRSTNAME="firstname";
+	private final static String USER_LASTNAME="lastname";
+	private final static String USER_PHONENUM="phonenum";
 	ArrayList<HashMap<String, Object>> userlist;
 
 	//Variables needed for ChildInfo table
@@ -77,7 +80,10 @@ public class LocalDB extends SQLiteOpenHelper{
 		String userTable = "CREATE TABLE "+USERS_TABLE+" ("
 				+USER_ID +" TEXT NOT NULL, "
 				+USER_PASSWORD+ " TEXT NOT NULL,"
-				+"privilege TEXT NOT NULL,"
+				+USER_FIRSTNAME+ " TEXT,"
+				+USER_LASTNAME+" TEXT,"
+				+USER_PHONENUM+" TEXT,"
+				+USER_PRIVILEGE+" TEXT NOT NULL,"
 				+"UNIQUE("+USER_ID+")ON CONFLICT REPLACE);";
 		db.execSQL(userTable);
 
@@ -234,10 +240,10 @@ public class LocalDB extends SQLiteOpenHelper{
 	 * @param password Password for the user
 	 * @param privilege Privilege level for the user
 	 */
-	public void addNewUser(String username, String password, String privilege){
+	public void addNewUser(String username, String password, String firstname, String lastname, String phonenum, String privilege){
 		thisDB=this.getWritableDatabase();
 		insertUserToLocalDB task = new insertUserToLocalDB();
-		task.execute(username, password, privilege);
+		task.execute(username, password,firstname,lastname,phonenum,privilege);
 	
 	}
 	
@@ -252,13 +258,19 @@ public class LocalDB extends SQLiteOpenHelper{
 			SQLiteStatement statement = thisDB.compileStatement("INSERT into "+CHILDREN_TABLE +"("
 					+USER_ID +","
 					+USER_NAME+","
-					+USER_PASSWORD+","
-					+USER_PRIVILEGE+")VALUES(?,?,?,?);");		
+					+USER_PASSWORD+ ""
+					+USER_FIRSTNAME+ ","
+					+USER_LASTNAME+","
+					+USER_PHONENUM+","
+					+USER_PRIVILEGE+")VALUES(?,?,?,?,?,?,?);");		
 					
 			statement.bindString(1,"9999"); //TEMP USER ID
-			statement.bindString(2,arg[1]);
-			statement.bindString(3,arg[2]);
-			statement.bindString(4,arg[3]);
+			statement.bindString(2,arg[0]);
+			statement.bindString(3,arg[1]);
+			statement.bindString(4,arg[2]);
+			statement.bindString(5,arg[3]);
+			statement.bindString(6,arg[4]);
+			statement.bindString(7,arg[5]);
 			statement.executeInsert();
 			statement.close();	
 			return null;
@@ -687,5 +699,4 @@ public class LocalDB extends SQLiteOpenHelper{
 	
 	}
 }
-
 
