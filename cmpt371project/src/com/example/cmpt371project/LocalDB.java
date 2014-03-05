@@ -1,7 +1,6 @@
 package com.example.cmpt371project;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -32,6 +29,9 @@ public class LocalDB extends SQLiteOpenHelper{
 	private final static String USER_PASSWORD = "user_Password"; 
 	private final static String USER_NAME="username";
 	private final static String USER_PRIVILEGE="privilege";
+	private final static String USER_FIRSTNAME="firstname";
+	private final static String USER_LASTNAME="lastname";
+	private final static String USER_PHONENUM="phonenum";
 	ArrayList<HashMap<String, Object>> userlist;
 
 	//Variables needed for ChildInfo table
@@ -49,11 +49,11 @@ public class LocalDB extends SQLiteOpenHelper{
 	
 	//Variables needed for Institutions table
 	private String INSTI_TABLE="institutions";
-	private String INSTI_ID="institutionId";
-	private String INSTI_name="institutionName";
-	private String INSTI_address="institutionAddress";
-	private String INSTI_Descipt="institutionDescription";
-	private String TAG_INSTITUTIONS="institution";
+	private String INSTI_ID="institution_id";
+	private String INSTI_name="institution_name";
+	private String INSTI_address="institution_address";
+	private String INSTI_Descipt="institution_description";
+	private String TAG_INSTITUTIONS="institutions";
 	ArrayList<HashMap<String,Object>> institutionList;
 	
 	// JSON Node names
@@ -74,14 +74,20 @@ public class LocalDB extends SQLiteOpenHelper{
 	}
 
 	@Override
+	
 	public void onCreate(SQLiteDatabase db){
+		//Creating user's table
 		String userTable = "CREATE TABLE "+USERS_TABLE+" ("
 				+USER_ID +" TEXT NOT NULL, "
 				+USER_PASSWORD+ " TEXT NOT NULL,"
-				+"privilege TEXT NOT NULL,"
+				+USER_FIRSTNAME+ " TEXT,"
+				+USER_LASTNAME+" TEXT,"
+				+USER_PHONENUM+" TEXT,"
+				+USER_PRIVILEGE+" TEXT NOT NULL,"
 				+"UNIQUE("+USER_ID+")ON CONFLICT REPLACE);";
 		db.execSQL(userTable);
 
+		//Creating children table
 		String childTable = "CREATE TABLE "+CHILDREN_TABLE+" ("
 				+CHILD_ID+" TEXT, "
 				+CHILD_FName+" TEXT,"
@@ -96,6 +102,7 @@ public class LocalDB extends SQLiteOpenHelper{
 		Log.d("CHILD TABLE", childTable.toString());
 		db.execSQL(childTable);
 		
+		//Creating institution table
 		String institutionTable="CREATE TABLE "+INSTI_TABLE+" ("
 				+INSTI_ID+" TEXT,"
 				+INSTI_name+" TEXT,"
@@ -122,7 +129,11 @@ public class LocalDB extends SQLiteOpenHelper{
 
 	}
 
-
+	/**
+	 * Gets the password of user
+	 * @param username
+	 * @return Returns password for comparison for login
+	 */
 	public String readPassword(String username){
 		//to do 
 		//the password need to be encrypt
@@ -136,6 +147,11 @@ public class LocalDB extends SQLiteOpenHelper{
 		this.getWritableDatabase().close();
 		return password;
 	}
+	/**
+	 * Gets the privilege of the user
+	 * @param username The username of user
+	 * @return returns the level of privilege of the user
+	 */
 	public String getPrivilege(String username){
 		String privilege = new String();
 		Cursor DBcursor = this.getWritableDatabase().rawQuery("Select privilege from "+USERS_TABLE +" WHERE user_ID='" + username + "'",null);
@@ -148,9 +164,11 @@ public class LocalDB extends SQLiteOpenHelper{
 		return privilege;
 	}
 
-	
-	////=====================USER TABLE RELATED=====================
-	
+
+	/**
+	 * Writes user table in the internal database to
+	 * user table in the remote database
+	 */
 	public void exportUserTable(){
 
 		thisDB=this.getWritableDatabase();
@@ -159,14 +177,16 @@ public class LocalDB extends SQLiteOpenHelper{
 	}
 
 	/**
-	 * Background Async Task to Create new product
-	 * */
+	 * pushUsersToRemoteDB private class that calls to a php webservice and inserts into the remote database
+	 * which is done in a background thread.
+	 */
 	private class pushUsersToRemoteDB extends AsyncTask<String, String, String> {
 
 		private static final String url_create_user = "http://192.168.0.10/Nutristep/create_user.php";
-		/**
-		 * Creating product
-		 * */
+		
+		/*
+		 * Creating users
+		 */
 		JSONParser jsonParser = new JSONParser();
 		protected String doInBackground(String... args) {
 			String query = "SELECT * FROM "+USERS_TABLE;
@@ -212,12 +232,25 @@ public class LocalDB extends SQLiteOpenHelper{
 		}
 
 	}
-	public void addNewUser(String username, String password, String privilege){
+	
+	/**
+	 * Adding a new user to the database or modify already existing user. Passes the parameters to 
+	 * insertUserToLocalDB to insert into the table in the local database to be performed in a background thread
+	 * @param username The username
+	 * @param password Password for the user
+	 * @param privilege Privilege level for the user
+	 */
+	public void addNewUser(String username, String password, String firstname, String lastname, String phonenum, String privilege){
 		thisDB=this.getWritableDatabase();
 		insertUserToLocalDB task = new insertUserToLocalDB();
-		task.execute(username, password, privilege);
+		task.execute(username, password,firstname,lastname,phonenum,privilege);
 	
 	}
+	
+	/**
+	 * Inserts into the table in the local database with parameters passed in arg[0],...,arg[n]
+	 * The insert is done in a background thread
+	 */
 	private class insertUserToLocalDB extends AsyncTask<String, String, String>{
 
 		@Override
@@ -225,19 +258,30 @@ public class LocalDB extends SQLiteOpenHelper{
 			SQLiteStatement statement = thisDB.compileStatement("INSERT into "+CHILDREN_TABLE +"("
 					+USER_ID +","
 					+USER_NAME+","
-					+USER_PASSWORD+","
-					+USER_PRIVILEGE+")VALUES(?,?,?,?);");		
+					+USER_PASSWORD+ ""
+					+USER_FIRSTNAME+ ","
+					+USER_LASTNAME+","
+					+USER_PHONENUM+","
+					+USER_PRIVILEGE+")VALUES(?,?,?,?,?,?,?);");		
 					
 			statement.bindString(1,"9999"); //TEMP USER ID
-			statement.bindString(2,arg[1]);
-			statement.bindString(3,arg[2]);
-			statement.bindString(4,arg[3]);
+			statement.bindString(2,arg[0]);
+			statement.bindString(3,arg[1]);
+			statement.bindString(4,arg[2]);
+			statement.bindString(5,arg[3]);
+			statement.bindString(6,arg[4]);
+			statement.bindString(7,arg[5]);
 			statement.executeInsert();
 			statement.close();	
 			return null;
 		}
 	}
 
+	/**
+	 * getUserTableFromRemoteDB 
+	 * when user table in the local database needs to be updated from remote database
+	 * this method will be called. This method calls getChildrenTableFromRemoteDB
+	 */
 	public void getUserTableFromRemoteDB(){
 		userlist = new ArrayList<HashMap<String, Object>>();
 		thisDB=this.getWritableDatabase();
@@ -245,6 +289,11 @@ public class LocalDB extends SQLiteOpenHelper{
 		task.execute();
 	}
 
+	/**
+	 * pullUserFromRemoteDB 
+	 * when children table in the local database needs to be updated from remote database
+	 * this method will be called. This method calls getChildrenTableFromRemoteDB
+	 */
 	private class pullUserFromRemoteDB extends AsyncTask<String, String, String>{
 
 		JSONParser jParser = new JSONParser();
@@ -252,10 +301,9 @@ public class LocalDB extends SQLiteOpenHelper{
 		private static final String url_all_users = "http://192.168.0.10/Nutristep/get_all_users.php";
 
 		@Override
-		/**
-		 * getting All users from url
-		 * */
-
+		/*
+		 * getting all users from url
+		 */
 		protected String doInBackground(String... args) {
 			// Building Parameters
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -322,8 +370,12 @@ public class LocalDB extends SQLiteOpenHelper{
 	
 	//=====================CHILDREN TABLE RELATED=====================
 	
+	/**
+	 * Returns a list of all children in the child table from the local database 
+	 * @return childrenList ArrayList<HashMap<String,Object>>
+	 */
 	public ArrayList<HashMap<String, Object>> getListofChildren(){
-		ArrayList<HashMap<String, Object>> list= new ArrayList<HashMap<String, Object>>();
+		ArrayList<HashMap<String, Object>> childrenList= new ArrayList<HashMap<String, Object>>();
 		SQLiteDatabase db = this.getWritableDatabase();
 		String query = "SELECT * FROM "+CHILDREN_TABLE;
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -331,25 +383,41 @@ public class LocalDB extends SQLiteOpenHelper{
 		   if (cursor.moveToFirst()) {
 		        do {
 		        	map.put("location", cursor.getString(1)+" "+cursor.getString(2));
-		        	list.add(map);
+		        	childrenList.add(map);
 		        	Log.d("Map",cursor.getString(1));
 		        } while (cursor.moveToNext());
 		    }
 		   
-		return list;
+		return childrenList;
 		
 	}
+	
+	/**
+	 * getChildrenTableFromRemoteDB 
+	 * when children table in the local database needs to be updated from remote database
+	 * this method will be called. This method calls getChildrenTableFromRemoteDB
+	 */
 	public void getChildrenTableFromRemoteDB(){
 		childrenList= new ArrayList<HashMap<String, Object>>();
 		thisDB=this.getWritableDatabase();
 		pullChildrenFromRemoteDB task = new pullChildrenFromRemoteDB();
 		task.execute();
 	}
+	
+	/**
+	 * pullChildrenFromRemoteDB class that calls to a php webservice
+	 * which is done in the background. The php script queries the remote database and
+	 * returns the result in a JSON string which will be parsed to retrieve each of the table elements.
+	 */
 	private class pullChildrenFromRemoteDB extends AsyncTask<String, String, String>{
 
 		JSONParser jParser = new JSONParser();
 		// url to get all user list
 		private static final String url_all_children = "http://192.168.0.10/Nutristep/get_all_children.php";
+		
+		/*
+		 * getting all children from url
+		 */
 		@Override
 		protected String doInBackground(String... args) {
 
@@ -441,13 +509,28 @@ public class LocalDB extends SQLiteOpenHelper{
 		}
 	}
 	
-	
+	/**
+	 * Adding a new child to the database or modify already existing child. Passes the parameters to 
+	 * insertChildToLocalDB to insert into the table in the local database to be performed in a background thread
+	 * @param firstName Child's first name
+	 * @param lastName Child's last name
+	 * @param gender Child's gender
+	 * @param birthdate Child's Date of birth
+	 * @param address Child's current home address
+	 * @param postal Child's postal code
+	 * @param phoneNum Child's phone number
+	 */
 	public void addNewChild(String firstName, String lastName, String gender, String birthdate, String address, String postal, String phoneNum){
-		thisDB=this.getWritableDatabase();
+		//Initializes thisDB field to write to 
+		thisDB=this.getWritableDatabase(); 
 		insertChildToLocalDB task = new insertChildToLocalDB();
 		task.execute(firstName, lastName, gender, birthdate, address, postal, phoneNum);
 	
 	}
+	/**
+	 * Inserts into the table in the local database with parameters passed in arg[0],...,arg[n]
+	 * The insert is done in a background thread
+	 */
 	private class insertChildToLocalDB extends AsyncTask<String, String, String>{
 
 		@Override
@@ -478,12 +561,23 @@ public class LocalDB extends SQLiteOpenHelper{
 	
 	
 	//=====================INSTITUTION TABLE RELATED=====================
-	
+	/**
+	 * Adding a new institution to the database or modify already existing institution. Passes the parameters
+	 * to insertInstitutionToLocalDB which will insert into the table in the local database in a background thread
+	 * @param institutionName - The institution's name
+	 * @param address - The address of the institution
+	 * @param description - Description of the institution
+	 */
 	public void addNewInstitution(String institutionName, String address, String description){
 		thisDB=this.getWritableDatabase();
 		insertInstitutionToLocalDB task = new insertInstitutionToLocalDB();
 		task.execute(institutionName, address, description);
 	}
+	
+	/**
+	 * Inserts into the table in the local database with parameters passed in arg[0],...,arg[n]
+	 * The insert is done in a background thread
+	 */
 	private class insertInstitutionToLocalDB extends AsyncTask<String, String, String>{
 
 		@Override
@@ -506,18 +600,32 @@ public class LocalDB extends SQLiteOpenHelper{
 		}
 	}
 	
+	/**
+	 * getInsitutionTableFromRemoteDB 
+	 * when institution table in the local database needs to be updated from remote database
+	 * this method will be called. This method calls pullInstitutionFromRemoteDB
+	 */
 	public void getInsitutionTableFromRemoteDB(){
 		institutionList= new ArrayList<HashMap<String, Object>>();
 		thisDB=this.getWritableDatabase();
 		pullInstitutionFromRemoteDB task = new pullInstitutionFromRemoteDB();
 		task.execute();
 	}
+	
+	/**
+	 * pullInstitutionFromRemoteDB class that calls to a php webservice
+	 * which is done in the background. The php script queries the remote database and
+	 * returns the result in a JSON string which will be parsed to retrieve each of the table elements.
+	 */
 	private class pullInstitutionFromRemoteDB extends AsyncTask<String, String, String>{
 
 		JSONParser jParser = new JSONParser();
 		// url to get all user list
 		private static final String url_all_institution = "http://192.168.0.10/Nutristep/get_all_institutions.php";
 		
+		/*
+		 * getting all institutions from url
+		 */
 		@Override
 		protected String doInBackground(String... args) {
 			// Building Parameters
@@ -532,12 +640,12 @@ public class LocalDB extends SQLiteOpenHelper{
 				// Checking for SUCCESS TAG
 				int success = json.getInt(TAG_SUCCESS);
 
-				if (success == 1) {
-					// users found
-					// Getting Array of Users
+				if (success == 1) { // institutions found
+				
+					// Getting Array of institutions
 					institutions = json.getJSONArray(TAG_INSTITUTIONS);
 
-					//looping through All Users
+					//looping through All institutions
 					for (int i = 0; i < institutions.length(); i++) {
 						JSONObject c = institutions.getJSONObject(i);
 
@@ -564,7 +672,7 @@ public class LocalDB extends SQLiteOpenHelper{
 						// creating new HashMap
 						HashMap<String, Object> map = new HashMap<String, Object>();
 
-						// adding each child node to HashMap key => value
+						// adding each institutions node to HashMap key => value
 						map.put(INSTI_ID, institutionId);
 						map.put(INSTI_name, institutionName);
 						map.put(INSTI_address, institutionAddress);
