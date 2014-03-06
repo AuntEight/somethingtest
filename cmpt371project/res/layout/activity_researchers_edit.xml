@@ -19,11 +19,11 @@
             android:text="@string/children_edit_save"/>  
         <Button
             style="?android:attr/buttonBarButtonStyle"
-            android:id="@+id/edRe_canc_but"
+            android:id="@+id/edRe_Edit_but"
             android:layout_width="wrap_content"  
             android:layout_height="fill_parent"  
             android:layout_weight="1"
-            android:text="@string/children_edit_Cancel"/>
+            android:text="@string/children_edit_Edit"/>
     </LinearLayout>  
     
 <LinearLayout  

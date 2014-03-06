@@ -20,14 +20,28 @@ public class childrenList extends Activity{
 private Button locationButton;
 private Button addButton;
 private ListView list;	
+private LocalDB resDB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		resDB = new LocalDB(this);
+		
 		setContentView(R.layout.activity_children_list);
 		locationButton=(Button)findViewById(R.id.alCh_loca_but);
 		addButton=(Button)findViewById(R.id.alCh_addN_but);
 		list = (ListView)findViewById(R.id.alCh_chil_lst);
+		
+		
+		//test DB
+		resDB.addNewUser("username1", "password1", "firstname1", "lastname1", "phonenum1", "privilege");
+		
+		ArrayList<HashMap<String,Object>> testRes = resDB.getAllUsers();
+		System.out.println("~~~~~~~~~~~~~~~~~~");
+		System.out.println(testRes.toString());
+		
+		
+		//test finish
 		
 		//list adapter
 		final simpleListAdapter thisAdapter = this.initializeListAdapter();
