@@ -48,24 +48,28 @@ public class Login extends Activity {
 				String inputPassword = password.getText().toString();
 				System.out.println("input user id is "+ inputId);
 				System.out.println("input password id is "+ inputPassword);
-				
-//need to fix
-//				String password = testDB.readPassword(inputId);
-//
+				String password = testDB.readPassword(inputId);
 
-				if(inputId.compareTo("admin")==0&&inputPassword.compareTo("admin")==0){
-						 Intent addIntent = new Intent();
-		            	 addIntent.setClass(Login.this, admin.class);
-		            	 Login.this.startActivity(addIntent);
-		            	 finish();
+				if(password.compareTo(inputPassword)==0 && !inputPassword.equals("")){
+					String privilege = testDB.getPrivilege(inputId);
+					if(privilege.compareTo("administrator")==0){
+						Intent addIntent = new Intent();
+						addIntent.setClass(Login.this, admin.class);
+						Login.this.startActivity(addIntent);
+						finish();
 					}
-				else if(inputId.compareTo("res")==0&&inputPassword.compareTo("res")==0){
-						 Intent resIntent = new Intent();
-		            	 resIntent.setClass(Login.this, researcher.class);
-		            	 Login.this.startActivity(resIntent);
-		            	 finish(); 
+					else if(privilege.compareTo("researcher")==0){
+						Intent addIntent = new Intent();
+						addIntent.setClass(Login.this, researcher.class);
+						Login.this.startActivity(addIntent);
+						finish(); 
 					}
 					//Default case if login credentials is user
+					else{
+
+					}
+
+				}
 				else{
 					Context context = getApplicationContext();
 					CharSequence text = "Invalid username or password";
@@ -74,37 +78,6 @@ public class Login extends Activity {
 					Toast toast = Toast.makeText(context, text, duration);
 					toast.show();
 				}
-
-//				The following code is for actual login. It is commented for test.
-//				
-//				if(password.compareTo(inputPassword)==0 && !inputPassword.equals("")){
-//					String privilege = testDB.getPrivilege(inputId);
-//					if(privilege.compareTo("administrator")==0){
-//						Intent addIntent = new Intent();
-//						addIntent.setClass(Login.this, admin.class);
-//						Login.this.startActivity(addIntent);
-//						finish();
-//					}
-//					else if(privilege.compareTo("researcher")==0){
-//						Intent addIntent = new Intent();
-//						addIntent.setClass(Login.this, researcher.class);
-//						Login.this.startActivity(addIntent);
-//						finish(); 
-//					}
-//					//Default case if login credentials is user
-//					else{
-//
-//					}
-//
-//				}
-//				else{
-//					Context context = getApplicationContext();
-//					CharSequence text = "Invalid username or password";
-//					int duration = Toast.LENGTH_SHORT;
-//
-//					Toast toast = Toast.makeText(context, text, duration);
-//					toast.show();
-//				}
 
 			}
 
@@ -123,7 +96,7 @@ public class Login extends Activity {
 					Log.d("Network Connection","Has connection");
 					testDB.getUserTableFromRemoteDB();
 					testDB.exportUserTable();
-//					testDB.getChildrenTableFromRemoteDB();
+					testDB.getChildrenTableFromRemoteDB();
 					testDB.getInsitutionTableFromRemoteDB();
 				}
 				else {

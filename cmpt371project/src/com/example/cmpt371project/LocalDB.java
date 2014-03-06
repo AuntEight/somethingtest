@@ -81,14 +81,12 @@ public class LocalDB extends SQLiteOpenHelper{
 				+USER_ID +" TEXT NOT NULL, "
 				+USER_PASSWORD+ " TEXT NOT NULL,"
 				+USER_FIRSTNAME+ " TEXT,"
-				+USER_NAME + " TEXT NOT NULL,"
 				+USER_LASTNAME+" TEXT,"
 				+USER_PHONENUM+" TEXT,"
 				+USER_PRIVILEGE+" TEXT NOT NULL,"
 				+"UNIQUE("+USER_ID+")ON CONFLICT REPLACE);";
 		db.execSQL(userTable);
 
-// waiting for debug 
 		//Creating children table
 		String childTable = "CREATE TABLE "+CHILDREN_TABLE+" ("
 				+CHILD_ID+" TEXT, "
@@ -112,7 +110,42 @@ public class LocalDB extends SQLiteOpenHelper{
 				+INSTI_Descipt+" TEXT,"
 				+"UNIQUE("+INSTI_ID+")ON CONFLICT ABORT);";
 		db.execSQL(institutionTable);
+
+		SQLiteStatement statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,privilege) VALUES(?,?,?);");
+		statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,Privilege) VALUES(?,?,?);");
+		statement.bindString(1, "res");
+		statement.bindString(2, "res");
+		statement.bindString(3,"researcher");
+		statement.executeInsert();
+		statement.close();		
 		
+		statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,Privilege) VALUES(?,?,?);");
+		statement.bindString(1, "admin");
+		statement.bindString(2, "admin");
+		statement.bindString(3,"administrator");
+		statement.executeInsert();
+		statement.close();	
+		
+		statement = db.compileStatement("INSERT into "+CHILDREN_TABLE +"("
+				+CHILD_ID +","
+				+CHILD_FName+","
+				+CHILD_LName+","
+				+CHILDREN_BIRTH+","
+				+CHILDREN_GENDER+","
+				+CHILD_ADDRESS+","
+				+CHILDREN_POSTAL+ ","
+				+CHILDREN_PHONE+ ")VALUES(?,?,?,?,?,?,?,?);");
+				
+		statement.bindString(1,"9999"); //TEMP ID
+		statement.bindString(2,"david");
+		statement.bindString(3,"thai");
+		statement.bindString(4,"1992-02-29");
+		statement.bindString(5,"male");
+		statement.bindString(6,"SK");
+		statement.bindString(7,"SK");
+		statement.bindString(8,"555-555-5555");
+		statement.executeInsert();
+		statement.close();	
 	} 
 
 	@Override
@@ -243,51 +276,6 @@ public class LocalDB extends SQLiteOpenHelper{
 	}
 	
 	/**
-	 * @author Xingze
-	 * @return an arrayList of all users data
-	 */
-	public ArrayList<HashMap<String,Object>> getAllUsers(){
-	
-		ArrayList<HashMap<String,Object>> allUsers = new ArrayList<HashMap<String,Object>>();
-		Cursor DBcursor = this.getWritableDatabase().rawQuery("Select" + USER_ID +","
-																	   + USER_NAME +","
-																	   + USER_PASSWORD +","
-																	   +USER_FIRSTNAME +","
-																	   +USER_LASTNAME +","
-																	   +USER_PHONENUM +","
-																	   +USER_PRIVILEGE +","
-																	   + "from users",null);
-    	while(DBcursor.moveToNext()){	
-    		String userID = DBcursor.getString(0);	
-    		String userName = DBcursor.getString(1);	
-    		String userPassword = DBcursor.getString(2);
-    		String userFirstName = DBcursor.getString(3);
-    		String userLastName = DBcursor.getString(4);
-    		String userPhoneNum = DBcursor.getString(5);
-    		String userPrivilege = DBcursor.getString(6);
-    		
- 
-    		HashMap<String,Object> oneUser = new HashMap<String,Object>();
-    		
-    		//set data in hash map
-    		oneUser.put("userID", userID);
-    		oneUser.put("userName", userName);
-    		oneUser.put("userPassword", userPassword);
-    		oneUser.put("userFirstName", userFirstName);
-    		oneUser.put("userLastName", userLastName);
-    		oneUser.put("userPhoneNum", userPhoneNum);
-    		oneUser.put("userPrivilege", userPrivilege);    		
-    			
-    		allUsers.add(oneUser);
-
-    	}
-    	DBcursor.close(); 
-    	this.getWritableDatabase().close();		
-		return allUsers; 
-		
-	}
-	
-	/**
 	 * Inserts into the table in the local database with parameters passed in arg[0],...,arg[n]
 	 * The insert is done in a background thread
 	 */
@@ -295,7 +283,7 @@ public class LocalDB extends SQLiteOpenHelper{
 
 		@Override
 		protected String doInBackground(String... arg) {
-			SQLiteStatement statement = thisDB.compileStatement("INSERT into "+USERS_TABLE +"("
+			SQLiteStatement statement = thisDB.compileStatement("INSERT into "+CHILDREN_TABLE +"("
 					+USER_ID +","
 					+USER_NAME+","
 					+USER_PASSWORD+ ""
@@ -407,7 +395,7 @@ public class LocalDB extends SQLiteOpenHelper{
 	}
 	
 	
-// can not find children table, waiting for debug	
+	
 	//=====================CHILDREN TABLE RELATED=====================
 	
 	/**
@@ -739,5 +727,4 @@ public class LocalDB extends SQLiteOpenHelper{
 	
 	}
 }
-
 
