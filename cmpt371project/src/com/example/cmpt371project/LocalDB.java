@@ -10,6 +10,7 @@ import org.json.*;
 
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -270,9 +271,83 @@ public class LocalDB extends SQLiteOpenHelper{
 	 */
 	public void addNewUser(String username, String password, String firstname, String lastname, String phonenum, String privilege){
 		thisDB=this.getWritableDatabase();
-		insertUserToLocalDB task = new insertUserToLocalDB();
-		task.execute(username, password,firstname,lastname,phonenum,privilege);
+//      need for debug
+//		insertUserToLocalDB task = new insertUserToLocalDB();
+//		task.execute(username, password,firstname,lastname,phonenum,privilege);
+	    ContentValues userData = new ContentValues();
+	    
+	    userData.put(USER_ID, username);
+	    userData.put(USER_PASSWORD, password);  
+	    userData.put(USER_FIRSTNAME, firstname);  
+	    userData.put(USER_LASTNAME, lastname);
+	    userData.put(USER_PHONENUM, phonenum);
+	    userData.put(USER_PRIVILEGE, privilege);
+	    thisDB.insert(USERS_TABLE, null, userData);  
 	
+	}
+	
+	/**
+	 * @author Xingze
+	 * @return an arrayList of all users data
+	 * get all users in DB, return an arrayList
+	 */
+	public ArrayList<HashMap<String,Object>> getAllUsers(){
+	
+		ArrayList<HashMap<String,Object>> allUsers = new ArrayList<HashMap<String,Object>>();
+		Cursor DBcursor = this.getWritableDatabase().rawQuery("Select " + USER_ID +","
+																	   + USER_PASSWORD +","
+																	   + USER_FIRSTNAME +","
+																	   + USER_LASTNAME +","
+																	   + USER_PHONENUM +","
+																	   + USER_PRIVILEGE 
+																	   + " from " + USERS_TABLE,null);
+    	while(DBcursor.moveToNext()){	
+    		String userID = DBcursor.getString(0);	
+    		String userPassword = DBcursor.getString(1);
+    		String userFirstName = DBcursor.getString(2);
+    		String userLastName = DBcursor.getString(3);
+    		String userPhoneNum = DBcursor.getString(4);
+    		String userPrivilege = DBcursor.getString(5);
+    		
+ 
+    		HashMap<String,Object> oneUser = new HashMap<String,Object>();
+    		
+    		//set data in hash map
+    		oneUser.put("userID", userID);
+    		oneUser.put("userPassword", userPassword);
+    		oneUser.put("userFirstName", userFirstName);
+    		oneUser.put("userLastName", userLastName);
+    		oneUser.put("userPhoneNum", userPhoneNum);
+    		oneUser.put("userPrivilege", userPrivilege);    			
+    		allUsers.add(oneUser);
+    		
+    	}
+    	DBcursor.close(); 
+    	this.getWritableDatabase().close();		
+		return allUsers; 
+		
+	}
+	/**
+	 * @author Xingze
+	 * update users in DB
+	 * @param username  the key for search in DB
+	 */
+	public void updateUsers(String username, String password, String firstname, String lastname, String phonenum){
+    	SQLiteDatabase db = this.getWritableDatabase();
+//    	db.execSQL("UPDATE " + USERS_TABLE +" SET "+ USER_PASSWORD +"='" + password+ "', " 
+//    				+ USER_LASTNAME + "='" + lastname + "', " 
+//    				+ USER_FIRSTNAME + "='" + firstname 
+//    				+" WHERE " + USER_ID+ "='" + username  + "'");
+    	
+//    	db.execSQL("UPDATE list_table SET LIST_CONTENT='" + newName + "', LIST_TIME='" + newTime + "' WHERE LIST_CONTENT='" + target  + "'");
+//    	db.execSQL("UPDATE " + USERS_TABLE +" SET "+ USER_LASTNAME +"='" + lastname +" WHERE " + USER_ID+ "='" + username  + "'"); 
+    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_FIRSTNAME +"='" + firstname + "' WHERE "+ USER_ID+ "='" + username  + "'");
+    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_LASTNAME +"='" + lastname + "' WHERE "+ USER_ID+ "='" + username  + "'");
+    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_PASSWORD +"='" + password + "' WHERE "+ USER_ID+ "='" + username  + "'");
+    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_PHONENUM +"='" + phonenum + "' WHERE "+ USER_ID+ "='" + username  + "'");
+    	
+    	
+    	db.close();
 	}
 	
 	/**

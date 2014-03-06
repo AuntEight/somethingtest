@@ -37,6 +37,7 @@ private int clickPosition;
 private ArrayList<String> listContent = new ArrayList<String>();  
 private HashMap<String,Object> clickItem;  //the item be clicked in the list 
 private LocalDB resDB;
+private simpleListAdapter thisAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +45,17 @@ private LocalDB resDB;
 		super.onCreate(savedInstanceState);
 //		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_researchers_list);
+		resDB = new LocalDB(this);
 		
-		//set up database
-//		resDB = new LocalDB(this);
+		//test DB
+//		resDB.addNewUser("username1", "password1", "firstname1", "lastname1", "phonenum1", "privilege");
 		
-//		resDB.addNewUser("username1", "password1", "first1", "last1", "1234567", "user");
+		ArrayList<HashMap<String,Object>> testRes = resDB.getAllUsers();
+		System.out.println("~~~~~~~~~~~~~~~~~~");
+		System.out.println(testRes.toString());
+		System.out.println("~~~~~~~~~~~~~~~~~~");
+		
+		//finish
 		
 		initActionbar();  //for acthion bar	    
 		listView = (ListView) findViewById(R.id.alRe_researcher_lst);
@@ -56,7 +63,7 @@ private LocalDB resDB;
 		addButton = (Button) findViewById(R.id.actionbar_addButton);
 //		searchView = (SearchView) findViewById(R.id.actionbar_searchView);
 				
-		final simpleListAdapter thisAdapter = this.initializeListAdapter();
+		thisAdapter = this.initializeListAdapter();
 		
 		//set listView
 		listView.setAdapter(thisAdapter);
@@ -81,6 +88,43 @@ private LocalDB resDB;
 //                System.out.println(testRESDB.toString());
             }  
         }); 
+		
+		//set on click
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long id) {
+				//read which item be clicked
+				int itemId = (int)id;
+				HashMap<String,Object> listItem = (HashMap<String, Object>) thisAdapter.getItem(itemId);
+				
+				String itemID = (String) listItem.get("userID");
+				String password = (String) listItem.get("userPassword");
+				String firstName = (String) listItem.get("userFirstName");
+				String lastName = (String) listItem.get("userLastName");
+				String phoneN = (String) listItem.get("userPhoneNum");
+
+				
+				
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~");
+				System.out.println(itemID);
+				
+		       	//go to children option
+		       	Intent viewIntent = new Intent();
+		       	viewIntent.setClass(researcherList.this, researcherEdit.class);
+		       	
+		       	viewIntent.putExtra("from", "res_view");
+		       	       	
+		       	viewIntent.putExtra("userID", itemID);
+		       	viewIntent.putExtra("userPassword", password);
+		       	viewIntent.putExtra("userFirstName", firstName);
+		       	viewIntent.putExtra("userLastName", lastName);
+		       	viewIntent.putExtra("userPhoneNum", phoneN);
+		       	
+		       	researcherList.this.startActivity(viewIntent);
+			}
+		});
 		
 		//set searchView
 		searchView.setOnQueryTextListener(this); 
@@ -166,11 +210,19 @@ private LocalDB resDB;
  * initial list adapter
  */
 	private simpleListAdapter  initializeListAdapter(){
-		ArrayList<HashMap<String,Object>> listItem = new ArrayList<HashMap<String,Object>>();
-		listItem = testData();
+		ArrayList<HashMap<String,Object>> listItem = resDB.getAllUsers();
+//		listItem = testData();
 		
-		simpleListAdapter newAdapter = new simpleListAdapter(this, listItem, R.layout.list, 
-				new String[]{"name"}, new int[]{R.id.list_textview});;
+//  	key		
+//		oneUser.put("userID", userID);
+//		oneUser.put("userPassword", userPassword);
+//		oneUser.put("userFirstName", userFirstName);
+//		oneUser.put("userLastName", userLastName);
+//		oneUser.put("userPhoneNum", userPhoneNum);
+//		oneUser.put("userPrivilege", userPrivilege);    
+		
+		simpleListAdapter newAdapter = new simpleListAdapter(this, listItem, R.layout.list_for_name, 
+				new String[]{"userFirstName","userLastName"}, new int[]{R.id.list_for_name_first,R.id.list_for_name_last});;
 			
 		return newAdapter;		
 	}
