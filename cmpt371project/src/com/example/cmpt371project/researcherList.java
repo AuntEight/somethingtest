@@ -210,7 +210,18 @@ private simpleListAdapter thisAdapter;
  * initial list adapter
  */
 	private simpleListAdapter  initializeListAdapter(){
-		ArrayList<HashMap<String,Object>> listItem = resDB.getAllUsers();
+		ArrayList<HashMap<String,Object>> listItem = new ArrayList<HashMap<String,Object>>();
+		listItem = resDB.getAllUsers();
+		
+	//	ArrayList<HashMap<String,Object>> temp = resDB.getAllUsers();
+//		if(temp.size()>3){
+//		HashMap<String,Object> test = temp.get(2);
+//		listItem.add(test);
+		
+//		HashMap<String,Object> test2 = temp.get(3);
+//		listItem.add(test);
+//		}
+
 //		listItem = testData();
 		
 //  	key		
@@ -222,8 +233,11 @@ private simpleListAdapter thisAdapter;
 //		oneUser.put("userPrivilege", userPrivilege);    
 		
 		simpleListAdapter newAdapter = new simpleListAdapter(this, listItem, R.layout.list_for_name, 
-				new String[]{"userFirstName","userLastName"}, new int[]{R.id.list_for_name_first,R.id.list_for_name_last});;
+				new String[]{"userFirstName","userLastName"}, new int[]{R.id.list_for_name_first,R.id.list_for_name_last});
 			
+//		
+//		simpleListAdapter newAdapter = new simpleListAdapter(this, listItem, R.layout.list_for_name, 
+//				new String[]{"userFirstName"}, new int[]{R.id.list_for_name_last});
 		return newAdapter;		
 	}
 

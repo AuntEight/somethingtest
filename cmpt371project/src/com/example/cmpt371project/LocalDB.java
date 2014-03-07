@@ -112,18 +112,22 @@ public class LocalDB extends SQLiteOpenHelper{
 				+"UNIQUE("+INSTI_ID+")ON CONFLICT ABORT);";
 		db.execSQL(institutionTable);
 
-		SQLiteStatement statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,privilege) VALUES(?,?,?);");
-		statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,Privilege) VALUES(?,?,?);");
+		SQLiteStatement statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,privilege,firstname,lastname) VALUES(?,?,?,?,?);");
+		statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,Privilege,firstname,lastname) VALUES(?,?,?,?,?);");
 		statement.bindString(1, "res");
 		statement.bindString(2, "res");
 		statement.bindString(3,"researcher");
+		statement.bindString(4,"res");
+		statement.bindString(5,"eacher");
 		statement.executeInsert();
 		statement.close();		
 		
-		statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,Privilege) VALUES(?,?,?);");
+		statement = db.compileStatement("INSERT into "+USERS_TABLE+"(user_ID,user_Password,Privilege,firstname,lastname) VALUES(?,?,?,?,?);");
 		statement.bindString(1, "admin");
 		statement.bindString(2, "admin");
 		statement.bindString(3,"administrator");
+		statement.bindString(4, "admin");
+		statement.bindString(5,"istrator");
 		statement.executeInsert();
 		statement.close();	
 		
@@ -344,7 +348,7 @@ public class LocalDB extends SQLiteOpenHelper{
     	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_FIRSTNAME +"='" + firstname + "' WHERE "+ USER_ID+ "='" + username  + "'");
     	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_LASTNAME +"='" + lastname + "' WHERE "+ USER_ID+ "='" + username  + "'");
     	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_PASSWORD +"='" + password + "' WHERE "+ USER_ID+ "='" + username  + "'");
-    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_PHONENUM +"='" + phonenum + "' WHERE "+ USER_ID+ "='" + username  + "'");
+    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_FIRSTNAME +"='" + phonenum + "' WHERE "+ USER_ID+ "='" + username  + "'");
     	
     	
     	db.close();
