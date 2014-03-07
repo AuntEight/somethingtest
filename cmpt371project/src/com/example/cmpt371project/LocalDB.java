@@ -348,7 +348,7 @@ public class LocalDB extends SQLiteOpenHelper{
     	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_FIRSTNAME +"='" + firstname + "' WHERE "+ USER_ID+ "='" + username  + "'");
     	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_LASTNAME +"='" + lastname + "' WHERE "+ USER_ID+ "='" + username  + "'");
     	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_PASSWORD +"='" + password + "' WHERE "+ USER_ID+ "='" + username  + "'");
-    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_FIRSTNAME +"='" + phonenum + "' WHERE "+ USER_ID+ "='" + username  + "'");
+    	db.execSQL("UPDATE "+ USERS_TABLE +" SET "+ USER_PHONENUM +"='" + phonenum + "' WHERE "+ USER_ID+ "='" + username  + "'");
     	
     	
     	db.close();
