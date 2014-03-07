@@ -6,12 +6,10 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.cmpt371project.Login;
 import com.example.cmpt371project.R;
 import com.example.cmpt371project.childrenList;
 import com.example.cmpt371project.locationList;
 import com.example.cmpt371project.researcher;
-import com.example.cmpt371project.researcherEdit;
 import com.robotium.solo.Solo;
 
 public class ResearcherTest extends ActivityInstrumentationTestCase2<researcher> {

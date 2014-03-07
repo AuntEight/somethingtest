@@ -20,6 +20,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 		super(Login.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation());
 		getActivity();
