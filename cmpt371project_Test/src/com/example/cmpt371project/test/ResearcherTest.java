@@ -6,6 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.cmpt371project.Login;
 import com.example.cmpt371project.R;
 import com.example.cmpt371project.childrenList;
 import com.example.cmpt371project.locationList;
@@ -65,7 +66,7 @@ public class ResearcherTest extends ActivityInstrumentationTestCase2<researcher>
 		solo.goBack();
 		assertTrue("ERR - Could not jump back from location list in 5s", solo.waitForActivity(researcher.class,5000));
 		solo.clickOnView(logOutButton);
-		assertTrue("ERR - Could not jump to login screen in 5s", solo.waitForActivity(researcher.class,5000));
+		assertTrue("ERR - Could not jump to login screen in 5s", solo.waitForActivity(Login.class,5000));
 		
 	}
 	
