@@ -14,6 +14,7 @@ public class LocationEditTest extends
 		super(locationEdit.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(),getActivity());
 		
@@ -25,6 +26,12 @@ public class LocationEditTest extends
 	 */
 	public void testSave(){
 		//
+	}
+	
+	@Override
+	protected void tearDown() throws Exception{
+
+			solo.finishOpenedActivities();
 	}
 
 }

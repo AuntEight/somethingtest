@@ -20,6 +20,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 		super(Login.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation());
 		getActivity();
@@ -31,7 +32,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 	/**
 	 * try to type in all kinds different stuff into text field
 	 */
-	public void testLoginIn(){
+	public void testLoginBasic(){
 		
 		//check current login activity
 		solo.assertCurrentActivity("Check on login activity", Login.class);
@@ -40,58 +41,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 		solo.clearEditText(userID);
 		solo.clearEditText(password);
 		solo.clickOnButton("Log in");
-		solo.sleep(500);
-		solo.assertCurrentActivity("Check on login activity", Login.class);
-		solo.goBackToActivity("Login");
-
-		//input empty username 
-		solo.clearEditText(userID);
-		solo.clearEditText(password);
-		solo.enterText(password, "123");
-		solo.clickOnButton("Log in");
-		solo.sleep(500);
-		solo.assertCurrentActivity("Check on login activity", Login.class);
-		solo.goBackToActivity("Login");
-		
-		//input empty password
-		solo.clearEditText(userID);
-		solo.clearEditText(password);
-		solo.enterText(userID, "adb");
-		solo.clickOnButton("Log in");
-		solo.sleep(500);
-		solo.assertCurrentActivity("Check on login activity", Login.class);
-		solo.goBackToActivity("Login");
-		
-		//input super long character
-		solo.clearEditText(userID);
-		solo.clearEditText(password);
-		solo.enterText(userID, "abcsdflaslkdjflsjdiofelrjlsjfd");
-		solo.enterText(password, "sdfsdfsdsdfsdf");
-		solo.clickOnButton("Log in");
-		solo.sleep(500);
-		solo.assertCurrentActivity("Check on login activity", Login.class);
-		solo.goBackToActivity("Login");
-		
-		//input a user name who are not in database
-		solo.clearEditText(userID);
-		solo.clearEditText(password);
-		solo.enterText(userID, "yyy345");
-		solo.enterText(password, "sdf");
-		solo.clickOnButton("Log in");
-		solo.sleep(500);
-		solo.assertCurrentActivity("Check on login activity", Login.class);
-		solo.goBackToActivity("Login");
-			
-		//input a user name that exists in database, with wrong password
-		solo.clearEditText(userID);
-		solo.clearEditText(password);
-		solo.enterText(userID, "admin");
-		solo.enterText(password, "123456");
-		solo.clickOnButton("Log in");
 		solo.sleep(1000);
-		solo.assertCurrentActivity("Login incorrectly", Login.class);
-		solo.goBackToActivity("Login");	
-		
+		solo.assertCurrentActivity("Check on login activity", Login.class);
 
 		//input correct admin username and password
 		solo.clearEditText(userID);
@@ -99,35 +50,29 @@ public class LoginTest extends ActivityInstrumentationTestCase2<Login> {
 		solo.enterText(userID, "admin");
 		solo.enterText(password, "admin");
 		solo.clickOnButton("Log in");
-		solo.sleep(500);
+		solo.sleep(1000);
 		solo.assertCurrentActivity("Check on Admin activity", admin.class);
-		solo.goBackToActivity("Login");	
-		
+		solo.clickOnButton("Log Out");
+		solo.assertCurrentActivity("Check on Admin activity", Login.class);
+	}
+	
+	public void testLogin(){
 		//input correct researcher username and password
+		solo.assertCurrentActivity("Check on Admin activity", Login.class);
 		solo.clearEditText(userID);
 		solo.clearEditText(password);
 		solo.enterText(userID, "res");
 		solo.enterText(password, "res");
 		solo.clickOnButton("Log in");
-		solo.sleep(500);
-		solo.assertCurrentActivity("Check on researcher activity", researcher.class);
-		solo.goBackToActivity("Login");			
-		
+		solo.sleep(1000);
+		solo.assertCurrentActivity("Check on researcher activity", researcher.class);	
+		solo.clickOnButton("Log Out");
+		solo.assertCurrentActivity("Check on Admin activity", Login.class);
 	}
-	
-	/**
-	 * test select language button
-	 */
-	public void testSelectLanguage(){
-		
-	}
-	
-	/**
-	 * test update button
-	 */
-	public void testUpdate(){
-		
-	}
-	
 
+	@Override
+	protected void tearDown() throws Exception{
+
+			solo.finishOpenedActivities();
+	}
 }
