@@ -18,11 +18,7 @@ ActivityInstrumentationTestCase2<admin>{
 	private Solo solo;
 	private Button userButton;
 	private Button childrenButton;
-	private Button statsButton;
-	private Button addLanguagerenButton;
-	private Button chooseLanguageButton;
 	private Button locationButton;
-	private Button updateButton;
 	private Button logOutButton;
 	
 	public AdminTest() {
@@ -37,11 +33,7 @@ ActivityInstrumentationTestCase2<admin>{
 		
 		userButton= (Button) findViewById(R.id.admin_user_but);
 		childrenButton= (Button) findViewById(R.id.admin_child_but);
-		statsButton= (Button) findViewById(R.id.admin_stats_but);
-		addLanguagerenButton= (Button) findViewById(R.id.admin_adLa_but);
-		chooseLanguageButton= (Button) findViewById(R.id.admin_chLa_but);
 		locationButton= (Button) findViewById(R.id.admin_loca_but);
-		updateButton= (Button) findViewById(R.id.admin_update_but);
 		logOutButton= (Button) findViewById(R.id.admin_logO_but);
 	}
 	
@@ -53,30 +45,29 @@ ActivityInstrumentationTestCase2<admin>{
 	public void testAdmin_Navigation(){
 		
 		solo.clickOnView(userButton);
+		solo.sleep(500);
 		solo.assertCurrentActivity("ERR - Could not jump to researcher list.", researcherList.class);
 		solo.hideSoftKeyboard();
+		solo.goBack();
 		solo.goBack();
 		solo.assertCurrentActivity("ERR - Could not jump back from researcher list.", admin.class);
 		
 		solo.clickOnView(childrenButton);
+		solo.sleep(500);
 		solo.assertCurrentActivity("ERR - Could not jump to children list.", childrenList.class);
 		solo.hideSoftKeyboard();
 		solo.goBack();
 		solo.assertCurrentActivity("ERR - Could not jump back from children list.", admin.class);
 		
-		// Temporarily ignored: since adding language is not implemented.
-		//solo.clickOnView(addLanguagerenButton);
-
-		// Temporarily ignored: since choosing language is not implemented.
-		//solo.clickOnView(chooseLanguageButton);
-
 		solo.clickOnView(locationButton);
+		solo.sleep(500);
 		solo.assertCurrentActivity("ERR - Could not jump to children list.", locationList.class);
 		solo.hideSoftKeyboard();
 		solo.goBack();
 		solo.assertCurrentActivity("ERR - Could not jump back from children list.", admin.class);
 
 		solo.clickOnView(logOutButton);
+		solo.sleep(500);
 		solo.assertCurrentActivity("ERR - Could not jump to login screen.", Login.class);
 
 	}

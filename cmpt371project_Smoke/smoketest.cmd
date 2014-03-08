@@ -18,10 +18,25 @@ echo connect to 5556 success
 
 
 :developmentPart
-call ..\cmpt371project\development.cmd
+::go to development directory
+cd ../cmpt371project/
+
+::clean the old development apk file
+if exist bin/*.apk (call ant clean)
+
+::compile the development codes
+call android update project -p .\ -t 1
+call ant debug
+if not errorlevel 0 (
+	echo compile development codes error
+	echo is it the original project path name "cmpt371project"
+	echo is it the project folder and the test folder under the same directory
+	pause
+	exit 1
+)
 
 ::install the development code
-call adb -s emulator-5556 install -r ..\cmpt371project\bin\cmpt371project-debug.apk
+call adb -s emulator-5556 install -r  bin\cmpt371project-debug.apk
 if not errorlevel 0 (
 	echo cannot install the original project apk to emulator 5556
 	echo or go to and run \cmpt371project\development.cmd 
@@ -36,6 +51,9 @@ echo development code finish compile and install
 
 
 :testPart
+::go to smoke test directory
+cd ../cmpt371project_Smoke/
+
 ::clean the old test apk file
 if exist bin/*.apk (call ant clean)
 
@@ -43,6 +61,7 @@ if exist bin/*.apk (call ant clean)
 call android update test-project -p .\ -m ..\cmpt371project\
 call ant debug
 if not errorlevel 0 (
+	echo compile test codes error
 	echo is it the original project path name "cmpt371project"
 	echo is it the project folder and the test folder under the same directory
 	pause
@@ -81,28 +100,96 @@ if not 8==%cnt% (
 	exit 1
 )
 
-:: researcher list test
-call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.ResearcherListTest ^
+
+:TestCases
+:: admin test
+call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.AdminTest ^
 -w com.example.cmpt371project.test/android.test.InstrumentationTestRunner > smoketestdata.txt
 set file=smoketestdata.txt
 set /a cnt=0
 for /f %%a in ('type "%file%"^|find "" /v /c') do set /a cnt=%%a
 if not 8==%cnt% (
-	echo fail in researcher list test
+	echo fail in admin test
+	echo error log in smoketestdata.txt
 	pause 
 	exit 1
 ) 
 
-:: researcher option test
-call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.ResearcherOptionTest ^
+:: children list test
+call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.ChildrenListTest ^
 -w com.example.cmpt371project.test/android.test.InstrumentationTestRunner > smoketestdata.txt
 set file=smoketestdata.txt
 set /a cnt=0
 for /f %%a in ('type "%file%"^|find "" /v /c') do set /a cnt=%%a
 if not 8==%cnt% (
-	echo fail in researcher option test
+	echo fail in children list test
+	echo error log in smoketestdata.txt
 	pause 
 	exit 1
 )
 
+:: children option test
+call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.ChildrenOptionTest ^
+-w com.example.cmpt371project.test/android.test.InstrumentationTestRunner > smoketestdata.txt
+set file=smoketestdata.txt
+set /a cnt=0
+for /f %%a in ('type "%file%"^|find "" /v /c') do set /a cnt=%%a
+if not 8==%cnt% (
+	echo fail in children option test
+	echo error log in smoketestdata.txt
+	pause 
+	exit 1
+)
+
+:: location edit test
+call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.LocationEditTest ^
+-w com.example.cmpt371project.test/android.test.InstrumentationTestRunner > smoketestdata.txt
+set file=smoketestdata.txt
+set /a cnt=0
+for /f %%a in ('type "%file%"^|find "" /v /c') do set /a cnt=%%a
+if not 8==%cnt% (
+	echo fail in location edit test
+	echo error log in smoketestdata.txt
+	pause 
+	exit 1
+)
+
+:: location list test
+call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.LocationListTest ^
+-w com.example.cmpt371project.test/android.test.InstrumentationTestRunner > smoketestdata.txt
+set file=smoketestdata.txt
+set /a cnt=0
+for /f %%a in ('type "%file%"^|find "" /v /c') do set /a cnt=%%a
+if not 8==%cnt% (
+	echo fail in location list test
+	echo error log in smoketestdata.txt
+	pause 
+	exit 1
+)
+
+:: login test
+call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.LoginTest ^
+-w com.example.cmpt371project.test/android.test.InstrumentationTestRunner > smoketestdata.txt
+set file=smoketestdata.txt
+set /a cnt=0
+for /f %%a in ('type "%file%"^|find "" /v /c') do set /a cnt=%%a
+if not 8==%cnt% (
+	echo fail in login test
+	echo error log in smoketestdata.txt
+	pause 
+	exit 1
+)
+
+:: survey option test
+call adb -s emulator-5556 shell am instrument -e class com.example.cmpt371project.test.SurveyOptionTest ^
+-w com.example.cmpt371project.test/android.test.InstrumentationTestRunner > smoketestdata.txt
+set file=smoketestdata.txt
+set /a cnt=0
+for /f %%a in ('type "%file%"^|find "" /v /c') do set /a cnt=%%a
+if not 8==%cnt% (
+	echo fail in survey option test
+	echo error log in smoketestdata.txt
+	pause 
+	exit 1
+)
 exit 0
