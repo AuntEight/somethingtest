@@ -43,6 +43,9 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 		researcherListView = (ListView) findViewById(R.id.alRe_researcher_lst);
 	}
 	
+	/**
+	 * Test add an user normally.
+	 */
 	public void testResearcherList_AddUserAndSave(){
 		Log.d("NutriStep", "Begin Test: Add a user.");
 		Log.d("NutriStep", "Try to jump to Add Researcher screen");
@@ -69,8 +72,70 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 	}
 	
 	/**
+	 * Test add user guard.
+	 */
+	public void testResearcherList_CheckBeforeAddUser(){
+		Log.d("NutriStep", "Begin Test: Check Before Add User.");
+		Log.d("NutriStep", "Try to jump to Add Researcher screen");
+		solo.clickOnView(addResearcherButton);
+		assertTrue("ERR - Could not jump to Add Researcher screen in 5s", solo.waitForActivity(researcherEdit.class,5000));
+		
+		Log.d("NutriStep", "Filling in new user information - no last name.");
+		solo.enterText((EditText) findViewById(R.id.edRe_firstname_txt), "Alice");		
+		solo.enterText((EditText) findViewById(R.id.edRe_phon_txt), "1-000-000-0000");
+		solo.enterText((EditText) findViewById(R.id.edRe_userName_txt), "ala999");
+		solo.enterText((EditText) findViewById(R.id.edRe_password_txt), "test");
+		
+		Log.d("NutriStep", "Try to save user information - no last name.");
+		solo.clickOnView(findViewById(R.id.edRe_save_but));
+		
+		Log.d("NutriStep", "Verify Activity  - no last name:");
+		solo.assertCurrentActivity("Should stay on add user screen.", researcherEdit.class);
+		
+		Log.d("NutriStep", "Filling in new user information - no first name.");
+		solo.enterText((EditText) findViewById(R.id.edRe_lastname_txt), "Alpha");
+		solo.clearEditText((EditText) findViewById(R.id.edRe_firstname_txt));
+
+		Log.d("NutriStep", "Save user information  - no first name.");
+		solo.clickOnView(findViewById(R.id.edRe_save_but));
+		
+		Log.d("NutriStep", "Verify Activity  - no first name:");
+		solo.assertCurrentActivity("Should stay on add user screen.", researcherEdit.class);
+		
+		Log.d("NutriStep", "Filling in new user information - no phone num.");
+		solo.enterText((EditText) findViewById(R.id.edRe_firstname_txt), "Alice");
+		solo.clearEditText((EditText) findViewById(R.id.edRe_phon_txt));
+		
+		Log.d("NutriStep", "Save user information  - no phone num.");
+		solo.clickOnView(findViewById(R.id.edRe_save_but));
+		
+		Log.d("NutriStep", "Verify Activity  - no phone num:");
+		solo.assertCurrentActivity("Should stay on add user screen.", researcherEdit.class);
+		
+		Log.d("NutriStep", "Filling in new user information - no user name.");
+		solo.enterText((EditText) findViewById(R.id.edRe_phon_txt), "1-000-000-0000");
+		solo.clearEditText((EditText) findViewById(R.id.edRe_userName_txt));
+		
+		Log.d("NutriStep", "Save user information  - no user name.");
+		solo.clickOnView(findViewById(R.id.edRe_save_but));
+		
+		Log.d("NutriStep", "Verify Activity  - no user name:");
+		solo.assertCurrentActivity("Should stay on add user screen.", researcherEdit.class);
+		
+		Log.d("NutriStep", "Filling in new user information - no password.");
+		solo.enterText((EditText) findViewById(R.id.edRe_userName_txt), "ala999");
+		solo.clearEditText((EditText) findViewById(R.id.edRe_password_txt));
+		
+		Log.d("NutriStep", "Save user information  - no password.");
+		solo.clickOnView(findViewById(R.id.edRe_save_but));
+		
+		Log.d("NutriStep", "Verify Activity  - no password:");
+		solo.assertCurrentActivity("Should stay on add user screen.", researcherEdit.class);
+	}
+	
+	/**
 	 * Test viewing user.
-	 * Stubbed test: since database function is not implemented, this will always succeed.
+	 * 
 	 */
 	public void testResearcherList_ViewUser(){
 		Log.d("NutriStep", "Begin Test: View a user.");
@@ -113,7 +178,7 @@ public class ResearcherListTest extends ActivityInstrumentationTestCase2<researc
 	
 	/**
 	 * Test editing user and saving changes.
-	 * Stubbed test: since database function is not implemented, this will always succeed.
+	 * 
 	 */
 	public void testResearcherList_EditUserAndSave(){
 		Log.d("NutriStep", "Begin Test: Edit a user.");
