@@ -25,8 +25,19 @@ public class LocationEditTest extends
 	 * try to save all wired data
 	 */
 	public void testSave(){
-		//
+		solo.enterText(0, "UUU");
+		solo.enterText(1,"123 Ave");
+		solo.enterText(2,"");
+		solo.clickOnButton("Save");
+		//TODO need to check database
 	}
+	
+//	/**
+//	 * test remove button, it is not implemented yet
+//	 */
+//	public void testRemove(){
+		
+//	}
 	
 	@Override
 	protected void tearDown() throws Exception{
