@@ -168,6 +168,7 @@ public class researcherEdit extends Activity{
 					
 					
 					save.setVisibility(View.VISIBLE);
+					remove.setVisibility(View.VISIBLE);
 					edit.setVisibility(View.INVISIBLE);
 				}
 			});
@@ -217,6 +218,19 @@ public class researcherEdit extends Activity{
 						passWord.setFocusableInTouchMode(false);
 					}
 					
+				}
+			});
+			
+			remove.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					String deleteUser = userName.getText().toString();
+					resDB.deleteUsers(new String[]{deleteUser});
+					
+					Intent backIntent = new Intent();
+			   	 	backIntent.setClass(researcherEdit.this, researcherList.class);
+			   	 	researcherEdit.this.startActivity(backIntent);
 				}
 			});
 
