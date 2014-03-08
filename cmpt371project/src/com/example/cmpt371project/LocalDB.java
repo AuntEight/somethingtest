@@ -353,6 +353,17 @@ public class LocalDB extends SQLiteOpenHelper{
     	
     	db.close();
 	}
+	/**
+	 * @author Xingze
+	 * @param the element deleted from database
+	 */
+    public void deleteUsers(String[] name){
+        String where = USER_ID+" = ?";  
+        String[] whereValues = name;   
+        this.getWritableDatabase().delete(USERS_TABLE, where, whereValues);  
+        this.getWritableDatabase().close();  
+        
+    }
 	
 	/**
 	 * Inserts into the table in the local database with parameters passed in arg[0],...,arg[n]
