@@ -1,3 +1,29 @@
+update at 2014 March 08 17:30
+
+This is the cmpt371 group 2 project for milestone 3
+
+The major project codes are in cmpt371project.
+The smoke test codes are in cmpt371project_Smoke.
+The test codes are in cmpt371project_Test.
+
+For run the project, 
+1), compile the codes in cmpt371project directory
+2), make sure an emulator/device connecting
+3), install the .apk to a android emulator/device
+
+For run the smoke test,
+1), make sure an emulator/device connecting
+2), make sure the smoketest.cmd indicate the right emulator/device
+3), run smoketest.cmd
+4), the smoke test errors are in smoketestdata.txt
+
+For run the test,
+1), make sure cmpt371project and cmpt371project_Test are inport to eclipse
+2), make sure an emulator/device connecting
+3), run android junit test on cmpt371project_Test
+
+-------------------------------------------------
+-------------------------------------------------
 Hi guys,
 
 This is the main branch for our cmpt371 project
@@ -8,3 +34,5 @@ All of these file have been tested,
 and does not have any big problem.
 
 first uplode 2014-02-23 Sunday
+-------------------------------------------------
+-------------------------------------------------
