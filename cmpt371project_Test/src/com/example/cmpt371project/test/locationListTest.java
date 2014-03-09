@@ -8,22 +8,23 @@ import com.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-public class locationListTest extends
+public class LocationListTest extends
 		ActivityInstrumentationTestCase2<locationList> {
 			
 	private Solo solo;
 
-	public locationListTest() {
+	public LocationListTest() {
 		super(locationList.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 	
 	/**
-	 * test add 
+	 * test add button
 	 */
 	public void testAdd(){
 		solo.clickOnButton("Add");
@@ -55,5 +56,15 @@ public class locationListTest extends
 	/**
 	 * test search field
 	 */
+	public void testSearchFiled(){
+		solo.enterText(0, "Daycare0");
+		//TODO after it is connected to the database
+	}
 
+	
+	@Override
+	protected void tearDown() throws Exception{
+
+			solo.finishOpenedActivities();
+	}
 }

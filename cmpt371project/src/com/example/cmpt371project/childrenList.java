@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 
@@ -21,15 +20,28 @@ public class childrenList extends Activity{
 private Button locationButton;
 private Button addButton;
 private ListView list;	
+private LocalDB resDB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		resDB = new LocalDB(this);
+		
 		setContentView(R.layout.activity_children_list);
 		locationButton=(Button)findViewById(R.id.alCh_loca_but);
 		addButton=(Button)findViewById(R.id.alCh_addN_but);
 		list = (ListView)findViewById(R.id.alCh_chil_lst);
+		
+		
+		//test DB
+		resDB.addNewUser("username1", "password1", "firstname1", "lastname1", "phonenum1", "privilege");
+		
+		ArrayList<HashMap<String,Object>> testRes = resDB.getAllUsers();
+		System.out.println("~~~~~~~~~~~~~~~~~~");
+		System.out.println(testRes.toString());
+		
+		
+		//test finish
 		
 		//list adapter
 		final simpleListAdapter thisAdapter = this.initializeListAdapter();
@@ -82,11 +94,13 @@ private ListView list;
 	private simpleListAdapter  initializeListAdapter(){
 		ArrayList<HashMap<String,Object>> listItem = new ArrayList<HashMap<String,Object>>();
 		
-		for(int i=0;i<5;i++){
-			HashMap<String,Object> newLocation = new HashMap<String,Object>();
-			newLocation.put("location", "Child"+i);
-			listItem.add(newLocation);
-		}
+		LocalDB getDB= new LocalDB(this.getApplication());
+		listItem = getDB.getListofChildren();
+//		for(int i=0;i<100;i++){  
+//			HashMap<String,Object> newLocation = new HashMap<String,Object>();
+//			newLocation.put("location", "Child"+i);
+//			listItem.add(newLocation);
+//		}
 		simpleListAdapter newAdapter = new simpleListAdapter(this, listItem, R.layout.list, 
 				new String[]{"location"}, new int[]{R.id.list_textview});;
 			
